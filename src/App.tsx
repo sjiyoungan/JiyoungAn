@@ -17,7 +17,7 @@ function App() {
         <div className="flex size-12 items-center justify-center rounded-xl bg-primary text-primary-foreground">
           <Sparkles className="size-6" aria-hidden="true" />
         </div>
-        <h1 className="text-3xl font-semibold tracking-tight">JiyoungAn</h1>
+        <h1 className="text-3xl font-semibold tracking-tight">Jiyoungan</h1>
         <p className="text-muted-foreground">
           React, Tailwind CSS, and ShadCN UI — ready to build.
         </p>

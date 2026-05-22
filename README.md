@@ -1,6 +1,6 @@
-# JiyoungAn
+# Jiyoungan
 
-A React app built with [Vite](https://vite.dev/), [Tailwind CSS](https://tailwindcss.com/), and [shadcn/ui](https://ui.shadcn.com/) (Radix Nova preset).
+A standalone React app (separate from MoneyMoney), built with [Vite](https://vite.dev/), [Tailwind CSS](https://tailwindcss.com/), and [shadcn/ui](https://ui.shadcn.com/) (Radix Nova preset).
 
 ## Stack
 
