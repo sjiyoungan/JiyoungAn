@@ -27,7 +27,7 @@ export function CaseStudyPage({ study }: CaseStudyPageProps) {
         </div>
 
         <footer className="mt-12 text-center text-sm text-neutral-500">
-          Jiyoungan · UX Design Portfolio
+          Jiyoung An · UX Design Portfolio
         </footer>
       </div>
     </div>

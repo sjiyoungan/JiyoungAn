@@ -1,0 +1,4 @@
+#!/bin/sh
+# Push to GitHub after every local commit.
+branch=$(git symbolic-ref --short HEAD 2>/dev/null || echo "main")
+git push origin "$branch" 2>/dev/null || git push origin main 2>/dev/null || true

@@ -1,8 +1,17 @@
-import { CaseStudyPage } from "@/components/portfolio/CaseStudyPage"
-import { sampleCaseStudy } from "@/data/case-study"
+import { BrowserRouter, Route, Routes } from "react-router-dom"
+
+import { HomePage } from "@/pages/HomePage"
+import { ProjectPage } from "@/pages/ProjectPage"
 
 function App() {
-  return <CaseStudyPage study={sampleCaseStudy} />
+  return (
+    <BrowserRouter>
+      <Routes>
+        <Route path="/" element={<HomePage />} />
+        <Route path="/projects/:slug" element={<ProjectPage />} />
+      </Routes>
+    </BrowserRouter>
+  )
 }
 
 export default App
