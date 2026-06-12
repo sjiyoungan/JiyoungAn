@@ -8,7 +8,7 @@ type CaseStudyPageProps = {
 
 export function CaseStudyPage({ study }: CaseStudyPageProps) {
   return (
-    <div className="min-h-svh bg-neutral-950 text-foreground">
+    <div>
       <div className="mx-auto max-w-3xl px-4 py-12 sm:px-6 sm:py-16 lg:py-20">
         <header className="mb-10 space-y-2 text-center sm:mb-14">
           <p className="text-sm font-medium tracking-wide text-neutral-400 uppercase">
