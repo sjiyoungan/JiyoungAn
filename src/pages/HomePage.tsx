@@ -1,11 +1,12 @@
 import { ArrowUpRight } from "lucide-react"
 import { Link } from "react-router-dom"
 
+import { SiteContainer } from "@/components/SiteContainer"
 import { projects } from "@/data/projects"
 
 export function HomePage() {
   return (
-    <div className="mx-auto max-w-2xl px-4 py-16 sm:px-6 sm:py-24 lg:py-32">
+    <SiteContainer className="py-16 sm:py-24 lg:py-32">
       <header className="mb-16 space-y-4 sm:mb-20">
         <p className="text-sm font-medium tracking-wide text-neutral-400 uppercase">
           UX Design Portfolio
@@ -51,6 +52,6 @@ export function HomePage() {
       <footer className="mt-16 text-sm text-neutral-500">
         © {new Date().getFullYear()} Jiyoung An
       </footer>
-    </div>
+    </SiteContainer>
   )
 }

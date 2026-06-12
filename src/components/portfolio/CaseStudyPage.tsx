@@ -1,3 +1,4 @@
+import { SiteContainer } from "@/components/SiteContainer"
 import type { CaseStudy } from "@/data/case-study"
 
 import { CaseStudySection } from "./CaseStudySection"
@@ -9,7 +10,7 @@ type CaseStudyPageProps = {
 export function CaseStudyPage({ study }: CaseStudyPageProps) {
   return (
     <div>
-      <div className="mx-auto max-w-3xl px-4 py-12 sm:px-6 sm:py-16 lg:py-20">
+      <SiteContainer className="py-12 sm:py-16 lg:py-20">
         <header className="mb-10 space-y-2 text-center sm:mb-14">
           <p className="text-sm font-medium tracking-wide text-neutral-400 uppercase">
             Case study
@@ -29,7 +30,7 @@ export function CaseStudyPage({ study }: CaseStudyPageProps) {
         <footer className="mt-12 text-center text-sm text-neutral-500">
           Jiyoung An · UX Design Portfolio
         </footer>
-      </div>
+      </SiteContainer>
     </div>
   )
 }

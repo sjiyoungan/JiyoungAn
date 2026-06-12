@@ -1,6 +1,7 @@
 import { Download } from "lucide-react"
 import { useEffect, useState } from "react"
 
+import { SiteContainer } from "@/components/SiteContainer"
 import { Button } from "@/components/ui/button"
 
 const RESUME_PATH = "/resume.pdf"
@@ -16,7 +17,7 @@ export function ResumePage() {
   }, [])
 
   return (
-    <div className="mx-auto max-w-4xl px-4 py-12 sm:px-6 sm:py-16">
+    <SiteContainer className="py-12 sm:py-16">
       <div className="mb-6 flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
         <header className="space-y-2">
           <p className="text-sm font-medium tracking-wide text-neutral-400 uppercase">
@@ -65,6 +66,6 @@ export function ResumePage() {
           </div>
         )}
       </div>
-    </div>
+    </SiteContainer>
   )
 }

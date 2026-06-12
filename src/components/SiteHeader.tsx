@@ -1,5 +1,6 @@
 import { Link, NavLink } from "react-router-dom"
 
+import { SiteContainer } from "@/components/SiteContainer"
 import { cn } from "@/lib/utils"
 
 const navLinkClass = ({ isActive }: { isActive: boolean }) =>
@@ -11,7 +12,7 @@ const navLinkClass = ({ isActive }: { isActive: boolean }) =>
 export function SiteHeader() {
   return (
     <header className="sticky top-0 z-50 border-b border-neutral-800/80 bg-neutral-950/90 backdrop-blur-sm">
-      <div className="mx-auto flex max-w-3xl items-center justify-between px-4 py-4 sm:px-6">
+      <SiteContainer className="flex items-center justify-between py-4">
         <Link
           to="/"
           className="text-sm font-medium text-white transition-colors hover:text-white/80"
@@ -27,7 +28,7 @@ export function SiteHeader() {
             Resume
           </NavLink>
         </nav>
-      </div>
+      </SiteContainer>
     </header>
   )
 }

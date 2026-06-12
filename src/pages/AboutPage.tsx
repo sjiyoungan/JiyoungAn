@@ -1,6 +1,8 @@
+import { SiteContainer } from "@/components/SiteContainer"
+
 export function AboutPage() {
   return (
-    <div className="mx-auto max-w-2xl px-4 py-16 sm:px-6 sm:py-20">
+    <SiteContainer className="py-16 sm:py-20">
       <header className="mb-10 space-y-3">
         <p className="text-sm font-medium tracking-wide text-neutral-400 uppercase">
           About
@@ -20,6 +22,6 @@ export function AboutPage() {
           looking for next.
         </p>
       </div>
-    </div>
+    </SiteContainer>
   )
 }
