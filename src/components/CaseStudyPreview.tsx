@@ -42,6 +42,7 @@ const PLACEHOLDER_SRC = "/previews/placeholder.png"
 
 /** Shared motion — Figma spec 150ms with decelerated enter, snappy exit */
 const MOTION_MS = 150
+const TAGS_FADE_MS = 100
 const EASE_ENTER = "cubic-bezier(0.33, 1, 0.68, 1)"
 const EASE_EXIT = "cubic-bezier(0.3, 0, 0.8, 0.15)"
 const EASE_PRESS = "cubic-bezier(0.25, 0.46, 0.45, 0.94)"
@@ -194,27 +195,19 @@ export function CaseStudyPreview({
               {visibleTags.length > 0 && (
                 <div
                   className={cn(
-                    "flex flex-wrap gap-2 overflow-hidden motion-reduce:transition-none",
-                    showTags ? "mt-6 max-h-24 opacity-100" : "mt-0 max-h-0 opacity-0"
+                    "flex flex-wrap gap-2 motion-reduce:transition-none",
+                    showTags ? "mt-6" : "mt-0 overflow-hidden"
                   )}
                   style={{
-                    transitionProperty: "opacity, margin, max-height",
-                    ...motionStyle(showTags, showTags ? 50 : 0),
+                    opacity: showTags ? 1 : 0,
+                    transitionProperty: "opacity",
+                    transitionDuration: `${TAGS_FADE_MS}ms`,
+                    transitionTimingFunction: showTags ? EASE_ENTER : EASE_EXIT,
                   }}
                   aria-hidden={!showTags}
                 >
-                  {visibleTags.map((tag, index) => (
-                    <Badge
-                      key={tag.label}
-                      variant="outline"
-                      className="motion-reduce:transition-none"
-                      style={{
-                        opacity: showTags ? 1 : 0,
-                        transform: showTags ? "translateY(0)" : "translateY(4px)",
-                        transitionProperty: "opacity, transform",
-                        ...motionStyle(showTags, showTags ? 70 + index * 35 : 0),
-                      }}
-                    >
+                  {visibleTags.map((tag) => (
+                    <Badge key={tag.label} variant="outline">
                       {tag.label}
                     </Badge>
                   ))}
