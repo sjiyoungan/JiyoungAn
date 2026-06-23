@@ -35,6 +35,9 @@ const ELEVATION_1 = "var(--elevation-1)"
 /** Hard offset shadow: 8px × 8px, 0 blur, 0 spread */
 const ACCENT_OFFSET_SHADOW = "8px 8px 0 0 var(--sys-accent)"
 const PRESSED_OFFSET_SHADOW = "8px 8px 0 0 var(--sys-on-accent-container)"
+/** 1px stroke outside the card — matches elevation ring, avoids layout shift vs border */
+const HOVER_RING_SHADOW = "0 0 0 1px var(--sys-on-surface-variant)"
+const PRESSED_RING_SHADOW = "0 0 0 1px var(--ref-pink-40)"
 
 const PLACEHOLDER_SRC = "/previews/placeholder.png"
 
@@ -81,8 +84,8 @@ export function CaseStudyPreview({
   const cardBoxShadow = !isRaised
     ? ELEVATION_1
     : isPressed || isActivated
-      ? PRESSED_OFFSET_SHADOW
-      : ACCENT_OFFSET_SHADOW
+      ? `${PRESSED_OFFSET_SHADOW}, ${PRESSED_RING_SHADOW}`
+      : `${ACCENT_OFFSET_SHADOW}, ${HOVER_RING_SHADOW}`
 
   return (
     <Link
@@ -102,12 +105,7 @@ export function CaseStudyPreview({
       onPointerCancel={() => setIsPressed(false)}
     >
       <div
-        className={cn(
-          "relative transition-[transform,box-shadow,border-color] duration-150 ease-out motion-reduce:transition-none",
-          isRaised
-            ? "border border-[var(--sys-on-surface-variant)]"
-            : "border border-transparent"
-        )}
+        className="relative transition-[transform,box-shadow] duration-150 ease-out motion-reduce:transition-none"
         style={{
           borderRadius: cardRadius,
           transform: bodyTransform,

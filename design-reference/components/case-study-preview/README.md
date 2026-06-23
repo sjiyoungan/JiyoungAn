@@ -31,7 +31,7 @@ Code: `CaseStudyPreview` — `src/components/CaseStudyPreview.tsx`
 | Body color | on-surface-variant | `text-muted-foreground` |
 | Default shadow | elevation 1 | `var(--elevation-1)` — 0/0/0/1px `#001728` @15% + 2/3/4 drop |
 | Hover offset | `#f23c5f` | `--sys-accent` (`ref/Pink/Pink64`) |
-| Hover | accent offset + 1px `on-surface-variant` border | |
+| Hover | accent offset + outer 1px `on-surface-variant` ring (`box-shadow`) | |
 | Pressed offset | `#82142c` | `--sys-on-accent-container` |
 | Placeholder | `preview-asset.png` → `/previews/placeholder.png` | |
 
@@ -62,7 +62,7 @@ See [`SPECS-TEMPLATE.md`](../../SPECS-TEMPLATE.md) for how to hand off updates.
 | **Pointer leave**            | Resets to default.                                                                                                                                     |
 
 
-Motion: `150ms ease-out` on transform and border color. Respects `motion-reduce`.
+Motion: `150ms ease-out` on transform and box-shadow. Respects `motion-reduce`.
 
 ---
 
