@@ -1,0 +1,59 @@
+---
+description: Reuse the project component library; do not invent new UI primitives
+alwaysApply: true
+---
+
+# Component library (required)
+
+**Always use existing components** from this project. Do not create new UI components, duplicate markup, or inline one-off patterns unless the user explicitly asks for a new component.
+
+## Before building any UI
+
+1. Check `design-reference/COMPONENTS.md` — Figma ↔ code mapping
+2. Check `src/components/` and `src/components/ui/` for existing implementations
+3. Compose pages from existing pieces; only add variants via `className` props
+
+## Import paths
+
+```tsx
+import { Button } from "@/components/ui/button"
+import { Card, CardHeader, CardTitle, ... } from "@/components/ui/card"
+import { SiteHeader } from "@/components/SiteHeader"
+import { SiteContainer } from "@/components/SiteContainer"
+import { AssetTagBadge } from "@/components/portfolio/AssetTag"
+import { CaseStudySection } from "@/components/portfolio/CaseStudySection"
+```
+
+## Component locations
+
+| Folder | Purpose |
+|--------|---------|
+| `src/components/ui/` | ShadCN primitives (Button, Card, …) — add via `npx shadcn add` only when user requests |
+| `src/components/` | Site shell (SiteHeader, SiteContainer, SiteLayout, PasswordGate) |
+| `src/components/portfolio/` | Portfolio-specific (CaseStudySection, AssetTag, PlaceholderImage) |
+| `src/pages/` | Page-level composition only — thin wrappers, no new primitives |
+
+## When the user shares a new Figma component
+
+1. Implement **once** in the correct folder (usually `src/components/` or `ui/`)
+2. Add an entry to `design-reference/COMPONENTS.md` (name, path, props, Figma link)
+3. Use that component everywhere the design appears — never copy-paste the markup
+
+## Do NOT
+
+- Create `NewButton.tsx` when `Button` exists
+- Duplicate card markup inline when `Card` or a portfolio component fits
+- Add ShadCN components without user asking
+- Build parallel one-off versions of the same Figma component
+
+## Example
+
+```tsx
+// ❌ BAD — inline duplicate
+<div className="rounded-2xl bg-card p-6 shadow-elevation-1">...</div>
+
+// ✅ GOOD — use Card or an existing portfolio component
+<Card className="shadow-elevation-1">...</Card>
+```
+
+If no component exists yet, ask: "Should I add `ProjectHero` to the library from your Figma spec?" — unless the user already said to implement it.
