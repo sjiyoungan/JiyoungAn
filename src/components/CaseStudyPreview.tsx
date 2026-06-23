@@ -24,6 +24,7 @@ export type CaseStudyPreviewProps = {
   tags?: CaseStudyPreviewTag[]
   to: LinkProps["to"]
   className?: string
+  onHoverChange?: (hovering: boolean) => void
 }
 
 /** Figma specs — design-reference/components/case-study-preview/README.md */
@@ -70,6 +71,7 @@ export function CaseStudyPreview({
   tags = [],
   to,
   className,
+  onHoverChange,
 }: CaseStudyPreviewProps) {
   const [isHovering, setIsHovering] = useState(false)
   const [isPressed, setIsPressed] = useState(false)
@@ -113,11 +115,15 @@ export function CaseStudyPreview({
     <Link
       to={to}
       className={cn("case-study-preview group block w-full select-none", className)}
-      onPointerEnter={() => setIsHovering(true)}
+      onPointerEnter={() => {
+        setIsHovering(true)
+        onHoverChange?.(true)
+      }}
       onPointerLeave={() => {
         setIsHovering(false)
         setIsPressed(false)
         setIsActivated(false)
+        onHoverChange?.(false)
       }}
       onPointerDown={() => setIsPressed(true)}
       onPointerUp={() => {
