@@ -25,7 +25,7 @@ I implement from screenshots + README + tokens, not by logging into Figma.
 
 | Frame (fill in name) | Node ID | Link |
 |----------------------|---------|------|
-| *(paste frame name from Figma layers panel)* | `54295-13154` | [Open frame](https://www.figma.com/design/BtEpcyFIvLVHXGmN44SpM9/Port-design-system?node-id=54295-13154) |
+| **Home** (Projects landing) | `54295-13154` | [Open frame](https://www.figma.com/design/BtEpcyFIvLVHXGmN44SpM9/Port-design-system?node-id=54295-13154) |
 
 **How to copy a frame link:** select the frame → Share → Copy link. The URL includes `node-id=…`.
 
@@ -63,7 +63,7 @@ For each frame you want built:
 
 | Figma page / frame | Route | Code | Reference folder |
 |--------------------|-------|------|------------------|
-| Projects (landing) | `/projects` | `ProjectsPage` | `design-reference/pages/` |
+| Projects (Figma: **Home**) | `/projects` | `ProjectsPage` | [`Pages/`](./Pages/) — `Projects.png` |
 | Case study | `/projects/:slug` | `CaseStudyPage` | `design-reference/pages/` |
 | About | `/about` | `AboutPage` | — |
 | Resume | `/resume` | `ResumePage` | — |

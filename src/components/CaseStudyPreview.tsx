@@ -129,7 +129,7 @@ export function CaseStudyPreview({
         {/* Card body: teal image band + white text band */}
         <div
           className={cn(
-            "relative overflow-hidden rounded-2xl transition-transform duration-150 ease-out motion-reduce:transition-none",
+            "relative overflow-hidden rounded-2xl shadow-elevation-1 transition-transform duration-150 ease-out motion-reduce:transition-none",
             styles.surface
           )}
           style={{ transform: bodyTransform }}
