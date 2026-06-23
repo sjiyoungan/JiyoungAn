@@ -12,7 +12,7 @@ export type Project = {
   sections: CaseStudySection[]
   preview: {
     theme: CaseStudyPreviewTheme
-    imageSrc: string
+    imageSrc?: string
     hoverImageSrc?: string
     imageAlt?: string
     tags: CaseStudyPreviewTag[]
@@ -121,8 +121,6 @@ export const projects: Project[] = [
     sections: businessCreditReportSections,
     preview: {
       theme: "teal",
-      imageSrc: "/previews/improving-business-credit-reports.png",
-      imageAlt: "NAV business credit report dashboard preview",
       tags: [
         { label: "UX", show: true },
         { label: "Fintech", show: true },

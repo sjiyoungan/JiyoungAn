@@ -16,8 +16,8 @@ export type CaseStudyPreviewProps = {
   title: string
   description: string
   theme?: CaseStudyPreviewTheme
-  /** Default preview image (PNG, JPG, etc.) */
-  imageSrc: string
+  /** Default preview image — omit to show placeholder */
+  imageSrc?: string
   imageAlt?: string
   /** Shown on hover — GIF or alternate still */
   hoverImageSrc?: string
@@ -126,7 +126,7 @@ export function CaseStudyPreview({
           }}
         />
 
-        {/* Card body */}
+        {/* Card body: teal image band + white text band */}
         <div
           className={cn(
             "relative overflow-hidden rounded-2xl transition-transform duration-150 ease-out motion-reduce:transition-none",
@@ -134,19 +134,15 @@ export function CaseStudyPreview({
           )}
           style={{ transform: bodyTransform }}
         >
-          {/* Preview asset on theme surface */}
-          <div className={cn("px-4 pt-4 sm:px-5 sm:pt-5", styles.surface)}>
-            <div className="overflow-hidden rounded-xl">
-              <PreviewAsset
-                imageSrc={imageSrc}
-                hoverImageSrc={hoverImageSrc}
-                imageAlt={imageAlt}
-                showHover={showHoverImage}
-              />
-            </div>
+          <div className="px-4 pt-4 sm:px-5 sm:pt-5">
+            <PreviewAsset
+              imageSrc={imageSrc}
+              hoverImageSrc={hoverImageSrc}
+              imageAlt={imageAlt}
+              showHover={showHoverImage}
+            />
           </div>
 
-          {/* Title, description, tags */}
           <div
             className={cn(
               "space-y-3 px-4 pb-4 pt-3 transition-colors duration-150 sm:px-5 sm:pb-5",
@@ -180,31 +176,41 @@ function PreviewAsset({
   imageAlt,
   showHover,
 }: {
-  imageSrc: string
+  imageSrc?: string
   hoverImageSrc?: string
   imageAlt: string
   showHover: boolean
 }) {
+  const hasImage = Boolean(imageSrc)
+
   return (
-    <div className="relative aspect-[16/10] w-full">
-      <img
-        src={imageSrc}
-        alt={imageAlt}
-        className={cn(
-          "absolute inset-0 size-full object-cover object-top transition-opacity duration-200",
-          showHover && hoverImageSrc ? "opacity-0" : "opacity-100"
-        )}
-      />
-      {hoverImageSrc && (
-        <img
-          src={hoverImageSrc}
-          alt=""
-          aria-hidden
-          className={cn(
-            "absolute inset-0 size-full object-cover object-top transition-opacity duration-200",
-            showHover ? "opacity-100" : "opacity-0"
+    <div className="relative aspect-[16/10] w-full overflow-hidden rounded-lg bg-card">
+      {hasImage ? (
+        <>
+          <img
+            src={imageSrc}
+            alt={imageAlt}
+            className={cn(
+              "absolute inset-0 size-full object-cover object-top transition-opacity duration-200",
+              showHover && hoverImageSrc ? "opacity-0" : "opacity-100"
+            )}
+          />
+          {hoverImageSrc && (
+            <img
+              src={hoverImageSrc}
+              alt=""
+              aria-hidden
+              className={cn(
+                "absolute inset-0 size-full object-cover object-top transition-opacity duration-200",
+                showHover ? "opacity-100" : "opacity-0"
+              )}
+            />
           )}
-        />
+        </>
+      ) : (
+        <div className="flex size-full items-center justify-center bg-muted/30">
+          <span className="type-caption2 text-muted-foreground">Preview</span>
+        </div>
       )}
     </div>
   )
