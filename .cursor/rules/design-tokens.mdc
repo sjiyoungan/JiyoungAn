@@ -1,0 +1,65 @@
+---
+description: Use Figma design tokens for all UI styling in this portfolio
+alwaysApply: true
+---
+
+# Design tokens (required)
+
+This project has a Figma design system. **Always use design tokens** for colors, typography, shadows, and spacing. Do not introduce one-off values unless the user explicitly asks for a design change.
+
+## Token sources
+
+| Source | Purpose |
+|--------|---------|
+| `Design-tokens/tokens.json` | Figma export (source of truth) |
+| `src/styles/generated-tokens.css` | CSS variables (`--sys-*`, `--ref-*`, `--elevation-*`) — run `npm run tokens:build` after JSON changes |
+| `src/styles/typography.css` | Typography utility classes |
+| `src/index.css` | ShadCN ↔ token mapping (`--background`, `--primary`, etc.) |
+
+## Colors — use these
+
+**Tailwind semantic classes (preferred):**
+- `bg-background`, `bg-card`, `bg-muted`, `bg-primary`, `text-foreground`, `text-muted-foreground`, `text-primary`, `border-border`, `ring-ring`
+
+**Raw token variables (when semantic classes are not enough):**
+- `var(--sys-primary)`, `var(--sys-on-surface)`, `var(--sys-accent-container)`, etc.
+
+## Typography — use these
+
+Use typography utilities, not ad-hoc `text-xl font-semibold`:
+
+- `.type-display1`, `.type-display2` — Cormorant Garamond headings
+- `.type-title1`, `.type-title1-em`, `.type-title2`, `.type-title3-em`
+- `.type-body1`, `.type-body2`
+- `.type-caption1-uppercase`, `.type-caption2`
+
+## Elevation
+
+- `.shadow-elevation-1` — cards, project links
+- `.shadow-elevation-2` — modals, password gate, hover states
+
+## Do NOT use (unless user requests a design change)
+
+- Hardcoded hex/rgb/oklch in components (e.g. `#f7f8fa`, `bg-neutral-950`)
+- Tailwind default palette for UI (`neutral-*`, `sky-*`, `slate-*`, `zinc-*`, etc.)
+- Arbitrary values like `text-[#00749b]` or `bg-[#ffffff]`
+- Re-defining colors in `index.css` without updating `tokens.json` first
+
+## When tokens need to change
+
+1. Update `Design-tokens/tokens.json` (from Figma)
+2. Run `npm run tokens:build`
+3. Use existing semantic classes — avoid editing generated CSS by hand
+
+## Example
+
+```tsx
+// ❌ BAD
+<div className="bg-neutral-950 text-white">
+<h1 className="text-3xl font-semibold text-gray-400">
+
+// ✅ GOOD
+<div className="bg-background text-foreground">
+<h1 className="type-display2 text-foreground">
+<p className="type-body1 text-muted-foreground">
+```
