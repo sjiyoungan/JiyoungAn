@@ -42,7 +42,8 @@ const PLACEHOLDER_SRC = "/previews/placeholder.png"
 
 /** Shared motion */
 const MOTION_MS = 150
-const COLLAPSE_MS = 100
+const COLLAPSE_MS = 200
+const TAGS_ENTER_MS = 100
 const EASE_MOTION = "cubic-bezier(0.4, 0, 0.2, 1)"
 const EASE_OUT = "ease-out"
 const EASE_PRESS = "cubic-bezier(0.25, 0.46, 0.45, 0.94)"
@@ -53,6 +54,11 @@ const motionStyle = (delayMs = 0) => ({
 })
 const collapseStyle = () => ({
   transitionDuration: `${COLLAPSE_MS}ms`,
+  transitionTimingFunction: EASE_OUT,
+  transitionDelay: "0ms",
+})
+const tagsEnterStyle = () => ({
+  transitionDuration: `${TAGS_ENTER_MS}ms`,
   transitionTimingFunction: EASE_OUT,
   transitionDelay: "0ms",
 })
@@ -126,8 +132,10 @@ export function CaseStudyPreview({
 
   const visibleTags = tags.filter((tag) => tag.show)
   const showTags = isHovering || isPressed || isActivated
-  /** Hold tag row open during fade; collapse animates in the collapsing phase */
+  const isExiting = exitPhase !== "idle"
+  /** Hold tag row open during pink fade; collapse clips tags at a fixed position */
   const tagRowOpen = showTags || exitPhase === "fading"
+  const tagsKeepVisible = showTags || isExiting
   const isCollapsing = exitPhase === "collapsing"
   const showHoverImage =
     Boolean(hoverImageSrc) && isHovering && !isPressed && !isActivated
@@ -255,15 +263,15 @@ export function CaseStudyPreview({
                     transitionProperty: "grid-template-rows",
                     ...(tagRowOpen ? motionStyle() : collapseStyle()),
                   }}
-                  aria-hidden={!showTags}
+                  aria-hidden={!tagsKeepVisible}
                 >
                   <div className="min-h-0 overflow-hidden">
                     <div
                       className="mt-6 flex flex-wrap gap-2 motion-reduce:transition-none"
                       style={{
-                        opacity: showTags ? 1 : 0,
+                        opacity: tagsKeepVisible ? 1 : 0,
                         transitionProperty: "opacity",
-                        ...motionStyle(),
+                        ...(showTags ? tagsEnterStyle() : { transitionDuration: "0ms" }),
                       }}
                     >
                       {visibleTags.map((tag) => (
