@@ -30,8 +30,8 @@ Code: `CaseStudyPreview` — `src/components/CaseStudyPreview.tsx`
 | Title color | primary-dim | `--sys-primary-dim` |
 | Body color | on-surface-variant | `text-muted-foreground` |
 | Default shadow | elevation 1 | `var(--elevation-1)` — 0/0/0/1px `#001728` @15% + 2/3/4 drop |
-| Hover offset | `#f23c5f` | `--sys-accent` (`ref/Pink/Pink64`) |
-| Hover | accent offset + outer 1px `on-surface-variant` ring (`box-shadow`) | |
+| Hover offset | `#f23c5f` | `--sys-accent` — separate layer behind card (`z-0`), offset 8px down-right |
+| Hover | outer 1px `on-surface-variant` ring (`box-shadow`) + constant elevation drop | |
 | Pressed offset | `#82142c` | `--sys-on-accent-container` |
 | Placeholder | `preview-asset.png` → `/previews/placeholder.png` | |
 

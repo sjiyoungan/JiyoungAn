@@ -30,12 +30,10 @@ export type CaseStudyPreviewProps = {
 const CARD_RADIUS_PX = 2
 const ASSET_HEIGHT_PX = 358
 const OFFSET_PX = 8
-/** Figma Elevation 1: 0/0/0/1 #001728 @15% + 2/3/4/0 drop */
-const ELEVATION_1 = "var(--elevation-1)"
-/** Hard offset shadow: 8px × 8px, 0 blur, 0 spread */
-const ACCENT_OFFSET_SHADOW = "8px 8px 0 0 var(--sys-accent)"
-const PRESSED_OFFSET_SHADOW = "8px 8px 0 0 var(--sys-on-accent-container)"
-/** 1px stroke outside the card — matches elevation ring, avoids layout shift vs border */
+/** Figma Elevation 1 decomposed — ring + drop kept separate so ring can change without shifting */
+const ELEVATION_RING = "0 0 0 1px #00172826"
+const ELEVATION_DROP = "2px 3px 4px 0px #0017281a"
+/** Outer 1px stroke — same geometry in every state to avoid subpixel shift */
 const HOVER_RING_SHADOW = "0 0 0 1px var(--sys-on-surface-variant)"
 const PRESSED_RING_SHADOW = "0 0 0 1px var(--ref-pink-40)"
 
@@ -81,11 +79,20 @@ export function CaseStudyPreview({
 
   const cardRadius = `${CARD_RADIUS_PX}px`
 
-  const cardBoxShadow = !isRaised
-    ? ELEVATION_1
-    : isPressed || isActivated
-      ? `${PRESSED_OFFSET_SHADOW}, ${PRESSED_RING_SHADOW}`
-      : `${ACCENT_OFFSET_SHADOW}, ${HOVER_RING_SHADOW}`
+  const ringShadow =
+    isPressed || isActivated
+      ? PRESSED_RING_SHADOW
+      : isRaised
+        ? HOVER_RING_SHADOW
+        : ELEVATION_RING
+
+  /** Keep drop shadow constant so the card never jumps when the ring color changes */
+  const cardBoxShadow = `${ringShadow}, ${ELEVATION_DROP}`
+
+  const offsetColor =
+    isPressed || isActivated
+      ? "var(--sys-on-accent-container)"
+      : "var(--sys-accent)"
 
   return (
     <Link
@@ -104,50 +111,67 @@ export function CaseStudyPreview({
       }}
       onPointerCancel={() => setIsPressed(false)}
     >
-      <div
-        className="relative transition-[transform,box-shadow] duration-150 ease-out motion-reduce:transition-none"
-        style={{
-          borderRadius: cardRadius,
-          transform: bodyTransform,
-          boxShadow: cardBoxShadow,
-        }}
-      >
-        <div className="flex w-full flex-col gap-2 overflow-hidden bg-card" style={{ borderRadius: cardRadius }}>
-        <div className={cn("w-full shrink-0", styles.surface)}>
-          <PreviewAsset
-            imageSrc={assetSrc}
-            hoverImageSrc={hoverImageSrc}
-            imageAlt={imageAlt}
-            showHover={showHoverImage}
-          />
-        </div>
+      <div className="relative isolate">
+        {/* Accent offset sits behind the card — never overlaps the face */}
+        <div
+          aria-hidden
+          className="pointer-events-none absolute inset-0 z-0 transition-opacity duration-150 ease-out motion-reduce:transition-none"
+          style={{
+            borderRadius: cardRadius,
+            transform: `translate(${OFFSET_PX}px, ${OFFSET_PX}px)`,
+            backgroundColor: offsetColor,
+            opacity: isRaised ? 1 : 0,
+          }}
+        />
 
         <div
-          className={cn(
-            "shrink-0 px-6 py-4 transition-colors duration-150",
-            isPressed || isActivated ? styles.contentBgPressed : styles.contentBg
-          )}
+          className="relative z-10 transition-[transform,box-shadow] duration-150 ease-out motion-reduce:transition-none"
+          style={{
+            borderRadius: cardRadius,
+            transform: bodyTransform,
+            boxShadow: cardBoxShadow,
+          }}
         >
-          <div className="space-y-0.5">
-            <h3
-              className="type-title3-em"
-              style={{ color: "var(--sys-primary-dim)" }}
-            >
-              {title}
-            </h3>
-            <p className="type-body2 text-muted-foreground">{description}</p>
-          </div>
-
-          {visibleTags.length > 0 && showTags && (
-            <div className="mt-6 flex flex-wrap gap-2">
-              {visibleTags.map((tag) => (
-                <Badge key={tag.label} variant="outline">
-                  {tag.label}
-                </Badge>
-              ))}
+          <div
+            className="flex w-full flex-col gap-2 overflow-hidden bg-card"
+            style={{ borderRadius: cardRadius }}
+          >
+            <div className={cn("w-full shrink-0", styles.surface)}>
+              <PreviewAsset
+                imageSrc={assetSrc}
+                hoverImageSrc={hoverImageSrc}
+                imageAlt={imageAlt}
+                showHover={showHoverImage}
+              />
             </div>
-          )}
-        </div>
+
+            <div
+              className={cn(
+                "shrink-0 px-6 py-4 transition-colors duration-150",
+                isPressed || isActivated ? styles.contentBgPressed : styles.contentBg
+              )}
+            >
+              <div className="space-y-0.5">
+                <h3
+                  className="type-title3-em"
+                  style={{ color: "var(--sys-primary-dim)" }}
+                >
+                  {title}
+                </h3>
+                <p className="type-body2 text-muted-foreground">{description}</p>
+              </div>
+
+              {visibleTags.length > 0 && showTags && (
+                <div className="mt-6 flex flex-wrap gap-2">
+                  {visibleTags.map((tag) => (
+                    <Badge key={tag.label} variant="outline">
+                      {tag.label}
+                    </Badge>
+                  ))}
+                </div>
+              )}
+            </div>
+          </div>
         </div>
       </div>
     </Link>
@@ -174,7 +198,7 @@ function PreviewAsset({
   return (
     <div
       className="relative w-full overflow-hidden"
-      style={{ height: ASSET_HEIGHT_PX, boxShadow: ELEVATION_1 }}
+      style={{ height: ASSET_HEIGHT_PX }}
     >
       <img
         src={activeSrc}
