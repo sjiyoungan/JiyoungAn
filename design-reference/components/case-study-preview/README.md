@@ -29,9 +29,11 @@ Code: `CaseStudyPreview` — `src/components/CaseStudyPreview.tsx`
 | Body → tags gap | 24px | `mt-6` |
 | Title color | primary-dim | `--sys-primary-dim` |
 | Body color | on-surface-variant | `text-muted-foreground` |
-| Default shadow | elevation 1 drop only | no border |
-| Hover | pink offset + 1px `on-surface-variant` border | |
-| Pressed offset | Pink40 | `--ref-pink-40` |
+| Default shadow | elevation 1 drop only | card + asset |
+| Hover offset | `#f23c5f` | `--sys-accent` (`ref/Pink/Pink64`) |
+| Hover | accent offset + 1px `on-surface-variant` border | |
+| Pressed offset | `#82142c` | `--sys-on-accent-container` |
+| Placeholder | `preview-asset.png` → `/previews/placeholder.png` | |
 
 See [`SPECS-TEMPLATE.md`](../../SPECS-TEMPLATE.md) for how to hand off updates.
 
@@ -54,7 +56,7 @@ See [`SPECS-TEMPLATE.md`](../../SPECS-TEMPLATE.md) for how to hand off updates.
 | State                        | Visual                                                                                                                                                 |
 | ---------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------ |
 | **Default**                  | Flat card on theme surface. Default preview image. Tags hidden. No pink offset.                                                                        |
-| **Hover**                    | Card lifts up-left 8px. Pink offset (`--ref-pink-90` / `#ffb8c1`). **2px** corner radius on card + offset. Tags fade in. `hoverImageSrc` replaces default image. |
+| **Hover**                    | Card lifts up-left 8px. Accent offset (`--sys-accent` / `#f23c5f`). **2px** corner radius. Tags fade in. |
 | **Pressed**                  | Card presses down onto offset. Border → `--ref-pink-40` (`#82142c`). Content area grey (`#e8ecef`). |
 | **Release** (still hovering) | Card lifts again. Border stays dark red. Image returns to default. Tags remain visible.                                                                |
 | **Pointer leave**            | Resets to default.                                                                                                                                     |
@@ -117,4 +119,5 @@ Place files in `public/previews/` and reference by path in `projects.ts`:
 - `imageSrc` — **preview asset only** (teal surface + dashboard mockup). Export from Figma — do **not** use the component matrix screenshot (`Case-study-preview-screenshot.png`).
 - `hoverImageSrc` — GIF or alternate still on hover (optional)
 
-Reference asset for NAV project: `design-reference/components/case-study-preview/preview-asset-teal.png`
+Reference asset for NAV project: `design-reference/components/case-study-preview/preview-asset.png`  
+Copy to `public/previews/placeholder.png` (or per-project path in `projects.ts`).

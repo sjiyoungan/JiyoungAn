@@ -84,8 +84,8 @@ export function CaseStudyPreview({
       className={cn("case-study-preview group block w-full select-none", className)}
       style={
         {
-          "--preview-border-hover": "var(--ref-pink-90)",
-          "--preview-border-pressed": "var(--ref-pink-40)",
+          "--preview-border-hover": "var(--sys-accent)",
+          "--preview-border-pressed": "var(--sys-on-accent-container)",
         } as CSSProperties
       }
       onPointerEnter={() => setIsHovering(true)}
@@ -190,8 +190,8 @@ function PreviewAsset({
 
   return (
     <div
-      className="relative w-full overflow-hidden bg-card"
-      style={{ height: ASSET_HEIGHT_PX }}
+      className="relative w-full overflow-hidden"
+      style={{ height: ASSET_HEIGHT_PX, boxShadow: ELEVATION_1_DROP }}
     >
       <img
         src={activeSrc}
