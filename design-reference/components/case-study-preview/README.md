@@ -4,7 +4,7 @@ Figma file: [Port-design-system](https://www.figma.com/design/BtEpcyFIvLVHXGmN44
 Figma component set: **Case study preview**  
 Code: `CaseStudyPreview` — `src/components/CaseStudyPreview.tsx`
 
-- **Frame link:** [node `54295-13154`](https://www.figma.com/design/BtEpcyFIvLVHXGmN44SpM9/Port-design-system?node-id=54295-13154) — paste frame name in [`FIGMA.md`](../../FIGMA.md) when confirmed
+- **Frame link:** [node `54295-13154](https://www.figma.com/design/BtEpcyFIvLVHXGmN44SpM9/Port-design-system?node-id=54295-13154)` — paste frame name in `[FIGMA.md](../../FIGMA.md)` when confirmed
 
 ---
 
@@ -89,4 +89,3 @@ Place files in `public/previews/` and reference by path in `projects.ts`:
 - `hoverImageSrc` — GIF or alternate still on hover (optional)
 
 Reference asset for NAV project: `design-reference/components/case-study-preview/preview-asset-teal.png`
-

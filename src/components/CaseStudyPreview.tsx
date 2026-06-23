@@ -16,7 +16,7 @@ export type CaseStudyPreviewProps = {
   title: string
   description: string
   theme?: CaseStudyPreviewTheme
-  /** Default preview image — omit to show placeholder */
+  /** Default preview image — omit for `/previews/placeholder.png` */
   imageSrc?: string
   imageAlt?: string
   /** Shown on hover — GIF or alternate still */
@@ -25,6 +25,8 @@ export type CaseStudyPreviewProps = {
   to: LinkProps["to"]
   className?: string
 }
+
+const PLACEHOLDER_SRC = "/previews/placeholder.png"
 
 const themeStyles: Record<
   CaseStudyPreviewTheme,
@@ -81,6 +83,7 @@ export function CaseStudyPreview({
 
   const isLifted = isHovering && !isPressed
   const styles = themeStyles[theme]
+  const assetSrc = imageSrc ?? PLACEHOLDER_SRC
 
   const bodyTransform = isPressed
     ? "translate(0, 0)"
@@ -112,31 +115,27 @@ export function CaseStudyPreview({
       onPointerCancel={() => setIsPressed(false)}
     >
       <div className="relative">
-        {/* Offset outline (pink → dark red) */}
+        {/* Offset outline (pink → dark red) — hover / press only */}
         <div
           aria-hidden
-          className={cn(
-            "absolute inset-0 rounded-2xl transition-colors duration-150 ease-out",
-            styles.surface
-          )}
+          className="absolute inset-0 rounded-2xl transition-opacity duration-150 ease-out"
           style={{
             transform: `translate(${OFFSET_PX}px, ${OFFSET_PX}px)`,
-            backgroundColor: isHovering || isPressed || isActivated ? borderColor : "transparent",
+            backgroundColor: borderColor,
             opacity: isHovering || isPressed || isActivated ? 1 : 0,
           }}
         />
 
-        {/* Card body: teal image band + white text band */}
+        {/* Card: white shell, teal image band, white text band */}
         <div
           className={cn(
-            "relative overflow-hidden rounded-2xl shadow-elevation-1 transition-transform duration-150 ease-out motion-reduce:transition-none",
-            styles.surface
+            "relative overflow-hidden rounded-2xl border border-border/50 bg-card shadow-elevation-1 transition-transform duration-150 ease-out motion-reduce:transition-none"
           )}
           style={{ transform: bodyTransform }}
         >
-          <div className="px-4 pt-4 sm:px-5 sm:pt-5">
+          <div className={cn("p-5", styles.surface)}>
             <PreviewAsset
-              imageSrc={imageSrc}
+              imageSrc={assetSrc}
               hoverImageSrc={hoverImageSrc}
               imageAlt={imageAlt}
               showHover={showHoverImage}
@@ -145,12 +144,12 @@ export function CaseStudyPreview({
 
           <div
             className={cn(
-              "space-y-3 px-4 pb-4 pt-3 transition-colors duration-150 sm:px-5 sm:pb-5",
+              "space-y-3 px-5 pb-5 pt-3 transition-colors duration-150",
               isPressed || isActivated ? styles.contentBgPressed : styles.contentBg
             )}
           >
             <div className="space-y-1">
-              <h3 className="type-title3-em text-primary">{title}</h3>
+              <h3 className="type-title3-em text-secondary-foreground">{title}</h3>
               <p className="type-body2 text-muted-foreground">{description}</p>
             </div>
 
@@ -176,41 +175,31 @@ function PreviewAsset({
   imageAlt,
   showHover,
 }: {
-  imageSrc?: string
+  imageSrc: string
   hoverImageSrc?: string
   imageAlt: string
   showHover: boolean
 }) {
-  const hasImage = Boolean(imageSrc)
-
   return (
     <div className="relative aspect-[16/10] w-full overflow-hidden rounded-lg bg-card">
-      {hasImage ? (
-        <>
-          <img
-            src={imageSrc}
-            alt={imageAlt}
-            className={cn(
-              "absolute inset-0 size-full object-cover object-top transition-opacity duration-200",
-              showHover && hoverImageSrc ? "opacity-0" : "opacity-100"
-            )}
-          />
-          {hoverImageSrc && (
-            <img
-              src={hoverImageSrc}
-              alt=""
-              aria-hidden
-              className={cn(
-                "absolute inset-0 size-full object-cover object-top transition-opacity duration-200",
-                showHover ? "opacity-100" : "opacity-0"
-              )}
-            />
+      <img
+        src={imageSrc}
+        alt={imageAlt}
+        className={cn(
+          "absolute inset-0 size-full object-cover object-top transition-opacity duration-200",
+          showHover && hoverImageSrc ? "opacity-0" : "opacity-100"
+        )}
+      />
+      {hoverImageSrc && (
+        <img
+          src={hoverImageSrc}
+          alt=""
+          aria-hidden
+          className={cn(
+            "absolute inset-0 size-full object-cover object-top transition-opacity duration-200",
+            showHover ? "opacity-100" : "opacity-0"
           )}
-        </>
-      ) : (
-        <div className="flex size-full items-center justify-center bg-muted/30">
-          <span className="type-caption2 text-muted-foreground">Preview</span>
-        </div>
+        />
       )}
     </div>
   )
