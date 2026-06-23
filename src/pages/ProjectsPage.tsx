@@ -1,11 +1,10 @@
-import { SiteContainer } from "@/components/SiteContainer"
 import { CaseStudyPreview } from "@/components/CaseStudyPreview"
 import { projects } from "@/data/projects"
 
-export function HomePage() {
+export function ProjectsPage() {
   return (
-    <SiteContainer className="py-12 sm:py-16 lg:py-20">
-      <ul className="flex flex-col gap-8">
+    <div className="px-6 py-10 sm:px-10 sm:py-12 lg:px-12 lg:py-14">
+      <ul className="flex max-w-[796px] flex-col gap-10 sm:gap-12">
         {projects.map((project) => (
           <li key={project.slug}>
             <CaseStudyPreview
@@ -21,6 +20,6 @@ export function HomePage() {
           </li>
         ))}
       </ul>
-    </SiteContainer>
+    </div>
   )
 }

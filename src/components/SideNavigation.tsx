@@ -25,9 +25,9 @@ export function SideNavigation({ className }: SideNavigationProps) {
 
       <nav className="mt-16 flex flex-col gap-6" aria-label="Main">
         <SideNavigationMenuItem
-          to="/"
+          to="/projects"
           isActive={(pathname) =>
-            pathname === "/" || pathname.startsWith("/projects/")
+            pathname === "/projects" || pathname.startsWith("/projects/")
           }
         >
           Projects

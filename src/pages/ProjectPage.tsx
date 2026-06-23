@@ -8,7 +8,7 @@ export function ProjectPage() {
   const project = slug ? getProjectBySlug(slug) : undefined
 
   if (!project) {
-    return <Navigate to="/" replace />
+    return <Navigate to="/projects" replace />
   }
 
   return <CaseStudyPage study={projectToCaseStudy(project)} />

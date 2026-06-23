@@ -5,7 +5,7 @@ import { SideNavigation } from "@/components/SideNavigation"
 export function SiteLayout() {
   return (
     <div className="flex min-h-svh bg-background text-foreground">
-      <SideNavigation />
+      <SideNavigation className="sticky top-0 h-svh" />
       <main className="min-w-0 flex-1">
         <Outlet />
       </main>
