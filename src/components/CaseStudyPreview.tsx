@@ -40,14 +40,21 @@ const PRESSED_RING_SHADOW = "0 0 0 1px var(--ref-pink-40)"
 
 const PLACEHOLDER_SRC = "/previews/placeholder.png"
 
-/** Shared motion — one 150ms curve for enter and exit */
+/** Shared motion */
 const MOTION_MS = 150
+const COLLAPSE_MS = 100
 const EASE_MOTION = "cubic-bezier(0.4, 0, 0.2, 1)"
+const EASE_OUT = "ease-out"
 const EASE_PRESS = "cubic-bezier(0.25, 0.46, 0.45, 0.94)"
 const motionStyle = (delayMs = 0) => ({
   transitionDuration: `${MOTION_MS}ms`,
   transitionTimingFunction: EASE_MOTION,
   transitionDelay: `${delayMs}ms`,
+})
+const collapseStyle = () => ({
+  transitionDuration: `${COLLAPSE_MS}ms`,
+  transitionTimingFunction: EASE_OUT,
+  transitionDelay: "0ms",
 })
 
 const themeStyles: Record<
@@ -76,33 +83,52 @@ export function CaseStudyPreview({
   const [isPressed, setIsPressed] = useState(false)
   const [isActivated, setIsActivated] = useState(false)
   const [frozenHeight, setFrozenHeight] = useState<number | null>(null)
+  const [exitPhase, setExitPhase] = useState<"idle" | "fading" | "collapsing">("idle")
 
   const cardFaceRef = useRef<HTMLDivElement>(null)
-  const exitTimerRef = useRef<number | null>(null)
+  const fadeTimerRef = useRef<number | null>(null)
+  const collapseTimerRef = useRef<number | null>(null)
 
-  const clearFrozenHeight = () => {
-    if (exitTimerRef.current !== null) {
-      window.clearTimeout(exitTimerRef.current)
-      exitTimerRef.current = null
+  const clearExitAnimation = () => {
+    if (fadeTimerRef.current !== null) {
+      window.clearTimeout(fadeTimerRef.current)
+      fadeTimerRef.current = null
+    }
+    if (collapseTimerRef.current !== null) {
+      window.clearTimeout(collapseTimerRef.current)
+      collapseTimerRef.current = null
     }
     setFrozenHeight(null)
+    setExitPhase("idle")
   }
 
-  const freezeHeightForExit = () => {
+  const beginExitAnimation = () => {
     const height = cardFaceRef.current?.offsetHeight
     if (!height) return
 
-    clearFrozenHeight()
+    clearExitAnimation()
     setFrozenHeight(height)
-    exitTimerRef.current = window.setTimeout(clearFrozenHeight, MOTION_MS)
+    setExitPhase("fading")
+
+    fadeTimerRef.current = window.setTimeout(() => {
+      fadeTimerRef.current = null
+      setFrozenHeight(null)
+      setExitPhase("collapsing")
+
+      collapseTimerRef.current = window.setTimeout(() => {
+        collapseTimerRef.current = null
+        setExitPhase("idle")
+      }, COLLAPSE_MS)
+    }, MOTION_MS)
   }
 
-  useEffect(() => () => clearFrozenHeight(), [])
+  useEffect(() => () => clearExitAnimation(), [])
 
   const visibleTags = tags.filter((tag) => tag.show)
   const showTags = isHovering || isPressed || isActivated
-  /** Keep tag row open while exit fade runs so the card face does not shrink early */
-  const tagRowOpen = showTags || frozenHeight !== null
+  /** Hold tag row open during fade; collapse animates in the collapsing phase */
+  const tagRowOpen = showTags || exitPhase === "fading"
+  const isCollapsing = exitPhase === "collapsing"
   const showHoverImage =
     Boolean(hoverImageSrc) && isHovering && !isPressed && !isActivated
 
@@ -140,12 +166,12 @@ export function CaseStudyPreview({
       to={to}
       className={cn("case-study-preview group block w-full select-none", className)}
       onPointerEnter={() => {
-        clearFrozenHeight()
+        clearExitAnimation()
         setIsHovering(true)
         onHoverChange?.(true)
       }}
       onPointerLeave={() => {
-        if (isHovering || isPressed || isActivated) freezeHeightForExit()
+        if (isHovering || isPressed || isActivated) beginExitAnimation()
         setIsHovering(false)
         setIsPressed(false)
         setIsActivated(false)
@@ -166,10 +192,10 @@ export function CaseStudyPreview({
             borderRadius: cardRadius,
             transform: bodyTransform,
             boxShadow: cardBoxShadow,
-            minHeight: frozenHeight ?? undefined,
-            transitionProperty: "transform, box-shadow",
-            transitionDuration: `${MOTION_MS}ms`,
-            transitionTimingFunction: isPressed ? EASE_PRESS : EASE_MOTION,
+            minHeight: exitPhase === "fading" && frozenHeight !== null ? frozenHeight : undefined,
+            transitionProperty: "transform, box-shadow, min-height",
+            transitionDuration: `${isCollapsing ? COLLAPSE_MS : MOTION_MS}ms`,
+            transitionTimingFunction: isCollapsing ? EASE_OUT : isPressed ? EASE_PRESS : EASE_MOTION,
           }}
         >
           {/* Accent offset — sized to the card face, fades before collapse */}
@@ -227,8 +253,7 @@ export function CaseStudyPreview({
                   )}
                   style={{
                     transitionProperty: "grid-template-rows",
-                    transitionDuration: tagRowOpen ? `${MOTION_MS}ms` : "0ms",
-                    transitionTimingFunction: EASE_MOTION,
+                    ...(tagRowOpen ? motionStyle() : collapseStyle()),
                   }}
                   aria-hidden={!showTags}
                 >
