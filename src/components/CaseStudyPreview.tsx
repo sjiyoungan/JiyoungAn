@@ -1,4 +1,4 @@
-import { useState, type CSSProperties } from "react"
+import { useEffect, useState, type CSSProperties } from "react"
 import { Link, type LinkProps } from "react-router-dom"
 
 import { Badge } from "@/components/ui/badge"
@@ -25,6 +25,12 @@ export type CaseStudyPreviewProps = {
   to: LinkProps["to"]
   className?: string
 }
+
+/** From Figma — see design-reference/components/case-study-preview/README.md */
+const CARD_MAX_WIDTH_PX = 896
+const CARD_HEIGHT_PX = 448
+const CARD_RADIUS_PX = 2
+const OFFSET_PX = 8
 
 const PLACEHOLDER_SRC = "/previews/placeholder.png"
 
@@ -54,8 +60,6 @@ const themeStyles: Record<
   },
 }
 
-const OFFSET_PX = 8
-
 export function CaseStudyPreview({
   title,
   description,
@@ -76,11 +80,6 @@ export function CaseStudyPreview({
   const showHoverImage =
     Boolean(hoverImageSrc) && isHovering && !isPressed && !isActivated
 
-  const borderColor =
-    isPressed || isActivated
-      ? "var(--preview-border-pressed)"
-      : "var(--preview-border-hover)"
-
   const isLifted = isHovering && !isPressed
   const styles = themeStyles[theme]
   const assetSrc = imageSrc ?? PLACEHOLDER_SRC
@@ -91,14 +90,20 @@ export function CaseStudyPreview({
       ? `translate(-${OFFSET_PX}px, -${OFFSET_PX}px)`
       : "translate(0, 0)"
 
+  const cardRadius = `${CARD_RADIUS_PX}px`
+
   return (
     <Link
       to={to}
-      className={cn("case-study-preview group block select-none", className)}
+      className={cn(
+        "case-study-preview group block w-full select-none",
+        className
+      )}
       style={
         {
-          "--preview-border-hover": "#f0b4c4",
-          "--preview-border-pressed": "#8b1a2b",
+          maxWidth: CARD_MAX_WIDTH_PX,
+          "--preview-border-hover": "var(--ref-pink-90)",
+          "--preview-border-pressed": "var(--ref-pink-40)",
         } as CSSProperties
       }
       onPointerEnter={() => setIsHovering(true)}
@@ -115,25 +120,34 @@ export function CaseStudyPreview({
       onPointerCancel={() => setIsPressed(false)}
     >
       <div className="relative">
-        {/* Offset outline (pink → dark red) — hover / press only */}
+        {/* Offset outline (Pink90 → Pink40) — hover / press only */}
         <div
           aria-hidden
-          className="absolute inset-0 rounded-2xl transition-opacity duration-150 ease-out"
+          className="absolute inset-0 transition-opacity duration-150 ease-out"
           style={{
+            borderRadius: cardRadius,
             transform: `translate(${OFFSET_PX}px, ${OFFSET_PX}px)`,
-            backgroundColor: borderColor,
+            backgroundColor:
+              isPressed || isActivated
+                ? "var(--preview-border-pressed)"
+                : "var(--preview-border-hover)",
             opacity: isHovering || isPressed || isActivated ? 1 : 0,
           }}
         />
 
-        {/* Card: white shell, teal image band, white text band */}
+        {/* Card shell */}
         <div
           className={cn(
-            "relative overflow-hidden rounded-2xl border border-border/50 bg-card shadow-elevation-1 transition-transform duration-150 ease-out motion-reduce:transition-none"
+            "relative flex w-full flex-col overflow-hidden border border-border/50 bg-card shadow-elevation-1 transition-transform duration-150 ease-out motion-reduce:transition-none",
+            showTags ? "min-h-[448px]" : undefined
           )}
-          style={{ transform: bodyTransform }}
+          style={{
+            borderRadius: cardRadius,
+            transform: bodyTransform,
+            height: showTags ? undefined : CARD_HEIGHT_PX,
+          }}
         >
-          <div className={cn("p-5", styles.surface)}>
+          <div className={cn("flex min-h-0 flex-1 flex-col p-5", styles.surface)}>
             <PreviewAsset
               imageSrc={assetSrc}
               hoverImageSrc={hoverImageSrc}
@@ -144,7 +158,7 @@ export function CaseStudyPreview({
 
           <div
             className={cn(
-              "space-y-3 px-5 pb-5 pt-3 transition-colors duration-150",
+              "shrink-0 space-y-3 px-5 pb-5 pt-3 transition-colors duration-150",
               isPressed || isActivated ? styles.contentBgPressed : styles.contentBg
             )}
           >
@@ -180,15 +194,27 @@ function PreviewAsset({
   imageAlt: string
   showHover: boolean
 }) {
+  const [activeSrc, setActiveSrc] = useState(imageSrc)
+
+  useEffect(() => {
+    setActiveSrc(imageSrc)
+  }, [imageSrc])
+
   return (
-    <div className="relative aspect-[16/10] w-full overflow-hidden rounded-lg bg-card">
+    <div
+      className="relative min-h-0 w-full flex-1 overflow-hidden bg-card"
+      style={{ borderRadius: 2 }}
+    >
       <img
-        src={imageSrc}
+        src={activeSrc}
         alt={imageAlt}
         className={cn(
           "absolute inset-0 size-full object-cover object-top transition-opacity duration-200",
           showHover && hoverImageSrc ? "opacity-0" : "opacity-100"
         )}
+        onError={() => {
+          if (activeSrc !== PLACEHOLDER_SRC) setActiveSrc(PLACEHOLDER_SRC)
+        }}
       />
       {hoverImageSrc && (
         <img

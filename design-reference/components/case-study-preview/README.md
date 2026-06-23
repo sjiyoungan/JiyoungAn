@@ -4,7 +4,23 @@ Figma file: [Port-design-system](https://www.figma.com/design/BtEpcyFIvLVHXGmN44
 Figma component set: **Case study preview**  
 Code: `CaseStudyPreview` — `src/components/CaseStudyPreview.tsx`
 
-- **Frame link:** [node `54295-13154](https://www.figma.com/design/BtEpcyFIvLVHXGmN44SpM9/Port-design-system?node-id=54295-13154)` — paste frame name in `[FIGMA.md](../../FIGMA.md)` when confirmed
+- **Frame link:** [node `54295-13154`](https://www.figma.com/design/BtEpcyFIvLVHXGmN44SpM9/Port-design-system?node-id=54295-13154)
+
+---
+
+## Specs (Figma → code)
+
+| Property | Value | Token / constant |
+|----------|-------|------------------|
+| Max width | 896px | `max-w-[896px]` |
+| Height (default) | 448px | `h-[448px]` |
+| Corner radius | 2px | card + offset shadow |
+| Hover offset | 8px | `OFFSET_PX` |
+| Hover offset color | `#ffb8c1` | `--ref-pink-90` |
+| Pressed offset color | `#82142c` | `--ref-pink-40` |
+| Placeholder image | `/previews/placeholder.png` | export asset from Figma |
+
+See [`SPECS-TEMPLATE.md`](../../SPECS-TEMPLATE.md) for how to hand off updates.
 
 ---
 
@@ -25,8 +41,8 @@ Code: `CaseStudyPreview` — `src/components/CaseStudyPreview.tsx`
 | State                        | Visual                                                                                                                                                 |
 | ---------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------ |
 | **Default**                  | Flat card on theme surface. Default preview image. Tags hidden. No pink offset.                                                                        |
-| **Hover**                    | Card lifts up-left 8px. Pink offset border (`#f0b4c4`) bottom-right. Tags fade in. `hoverImageSrc` (GIF or still) replaces default image.              |
-| **Pressed**                  | Card presses down onto offset (translate 0). Border transitions pink → dark red (`#8b1a2b`). Content area grey (`#e8ecef`). Default image (not hover). |
+| **Hover**                    | Card lifts up-left 8px. Pink offset (`--ref-pink-90` / `#ffb8c1`). **2px** corner radius on card + offset. Tags fade in. `hoverImageSrc` replaces default image. |
+| **Pressed**                  | Card presses down onto offset. Border → `--ref-pink-40` (`#82142c`). Content area grey (`#e8ecef`). |
 | **Release** (still hovering) | Card lifts again. Border stays dark red. Image returns to default. Tags remain visible.                                                                |
 | **Pointer leave**            | Resets to default.                                                                                                                                     |
 
