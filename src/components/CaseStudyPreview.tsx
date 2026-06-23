@@ -77,7 +77,7 @@ export function CaseStudyPreview({
   const [isActivated, setIsActivated] = useState(false)
   const [frozenHeight, setFrozenHeight] = useState<number | null>(null)
 
-  const wrapperRef = useRef<HTMLDivElement>(null)
+  const cardFaceRef = useRef<HTMLDivElement>(null)
   const exitTimerRef = useRef<number | null>(null)
 
   const clearFrozenHeight = () => {
@@ -89,7 +89,7 @@ export function CaseStudyPreview({
   }
 
   const freezeHeightForExit = () => {
-    const height = wrapperRef.current?.offsetHeight
+    const height = cardFaceRef.current?.offsetHeight
     if (!height) return
 
     clearFrozenHeight()
@@ -101,6 +101,8 @@ export function CaseStudyPreview({
 
   const visibleTags = tags.filter((tag) => tag.show)
   const showTags = isHovering || isPressed || isActivated
+  /** Keep tag row open while exit fade runs so the card face does not shrink early */
+  const tagRowOpen = showTags || frozenHeight !== null
   const showHoverImage =
     Boolean(hoverImageSrc) && isHovering && !isPressed && !isActivated
 
@@ -156,38 +158,36 @@ export function CaseStudyPreview({
       }}
       onPointerCancel={() => setIsPressed(false)}
     >
-      <div
-        ref={wrapperRef}
-        className="relative isolate"
-        style={frozenHeight !== null ? { minHeight: frozenHeight } : undefined}
-      >
-        {/* Accent offset sits behind the card — never overlaps the face */}
+      <div className="relative isolate">
         <div
-          aria-hidden
-          className="pointer-events-none absolute inset-0 z-0 motion-reduce:transition-none"
-          style={{
-            borderRadius: cardRadius,
-            transform: offsetTransform,
-            backgroundColor: offsetColor,
-            opacity: isRaised ? 1 : 0,
-            transitionProperty: "opacity, transform, background-color",
-            ...motionStyle(),
-          }}
-        />
-
-        <div
+          ref={cardFaceRef}
           className="relative z-10 motion-reduce:transition-none"
           style={{
             borderRadius: cardRadius,
             transform: bodyTransform,
             boxShadow: cardBoxShadow,
+            minHeight: frozenHeight ?? undefined,
             transitionProperty: "transform, box-shadow",
             transitionDuration: `${MOTION_MS}ms`,
             transitionTimingFunction: isPressed ? EASE_PRESS : EASE_MOTION,
           }}
         >
+          {/* Accent offset — sized to the card face, fades before collapse */}
           <div
-            className="flex w-full flex-col gap-2 overflow-hidden bg-card"
+            aria-hidden
+            className="pointer-events-none absolute inset-0 z-0 motion-reduce:transition-none"
+            style={{
+              borderRadius: cardRadius,
+              transform: offsetTransform,
+              backgroundColor: offsetColor,
+              opacity: isRaised ? 1 : 0,
+              transitionProperty: "opacity, transform, background-color",
+              ...motionStyle(),
+            }}
+          />
+
+          <div
+            className="relative z-10 flex w-full flex-col gap-2 overflow-hidden bg-card"
             style={{ borderRadius: cardRadius }}
           >
             <div className={cn("w-full shrink-0", styles.surface)}>
@@ -222,12 +222,13 @@ export function CaseStudyPreview({
               {visibleTags.length > 0 && (
                 <div
                   className={cn(
-                    "grid transition-[grid-template-rows] motion-reduce:transition-none",
-                    showTags ? "grid-rows-[1fr]" : "grid-rows-[0fr]"
+                    "grid motion-reduce:transition-none",
+                    tagRowOpen ? "grid-rows-[1fr]" : "grid-rows-[0fr]"
                   )}
                   style={{
                     transitionProperty: "grid-template-rows",
-                    ...motionStyle(),
+                    transitionDuration: tagRowOpen ? `${MOTION_MS}ms` : "0ms",
+                    transitionTimingFunction: EASE_MOTION,
                   }}
                   aria-hidden={!showTags}
                 >

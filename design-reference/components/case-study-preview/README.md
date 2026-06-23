@@ -62,7 +62,7 @@ See [`SPECS-TEMPLATE.md`](../../SPECS-TEMPLATE.md) for how to hand off updates.
 | **Pointer leave**            | Resets to default.                                                                                                                                     |
 
 
-Motion: unified `150ms` `cubic-bezier(0.4, 0, 0.2, 1)` on enter and exit. On leave, card height is frozen so pink offset, ring, tags, and scrim all settle together. Respects `motion-reduce`.
+Motion: unified `150ms` on enter and exit. On leave, card face height and tag row stay open while pink, ring, and tags fade; collapse runs instantly after. Respects `motion-reduce`.
 
 ---
 
