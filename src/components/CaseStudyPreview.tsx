@@ -52,6 +52,13 @@ const motionStyle = (active: boolean, delayMs = 0) => ({
   transitionDelay: `${delayMs}ms`,
 })
 
+/** Pink + ring snap off on leave; animate in on hover so collapse never clips the offset */
+const hoverLiftMotionStyle = (active: boolean) => ({
+  transitionDuration: active ? `${MOTION_MS}ms` : "0ms",
+  transitionTimingFunction: active ? EASE_ENTER : EASE_EXIT,
+  transitionDelay: "0ms",
+})
+
 const themeStyles: Record<
   CaseStudyPreviewTheme,
   { surface: string; contentBg: string; contentBgPressed: string }
@@ -144,7 +151,7 @@ export function CaseStudyPreview({
             backgroundColor: offsetColor,
             opacity: isRaised ? 1 : 0,
             transitionProperty: "opacity, transform, background-color",
-            ...motionStyle(isRaised),
+            ...hoverLiftMotionStyle(isRaised),
           }}
         />
 
@@ -155,8 +162,12 @@ export function CaseStudyPreview({
             transform: bodyTransform,
             boxShadow: cardBoxShadow,
             transitionProperty: "transform, box-shadow",
-            transitionDuration: `${MOTION_MS}ms`,
-            transitionTimingFunction: isPressed ? EASE_PRESS : isRaised ? EASE_ENTER : EASE_EXIT,
+            ...(isPressed
+              ? {
+                  transitionDuration: `${MOTION_MS}ms`,
+                  transitionTimingFunction: EASE_PRESS,
+                }
+              : hoverLiftMotionStyle(isRaised)),
           }}
         >
           <div

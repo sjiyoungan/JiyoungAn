@@ -62,7 +62,7 @@ See [`SPECS-TEMPLATE.md`](../../SPECS-TEMPLATE.md) for how to hand off updates.
 | **Pointer leave**            | Resets to default.                                                                                                                                     |
 
 
-Motion: `150ms` — pink offset slides/fades in first, ring follows. Tags sit at a fixed `mt-6` offset; the row expands/clips via CSS grid, then fades in together over `100ms`. Enter uses decelerated ease; exit is snappier. Press uses a tighter ease. Respects `motion-reduce`.
+Motion: `150ms` enter on pink offset and ring; **instant** exit on mouse leave so the offset is not clipped as tags collapse. Tags sit at a fixed `mt-6` offset; the row expands/clips via CSS grid, then fades in together over `100ms`. Respects `motion-reduce`.
 
 ---
 
