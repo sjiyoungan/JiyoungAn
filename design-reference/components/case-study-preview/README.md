@@ -10,15 +10,28 @@ Code: `CaseStudyPreview` — `src/components/CaseStudyPreview.tsx`
 
 ## Specs (Figma → code)
 
+### Page container (`ProjectsPage`)
+| Property | Value |
+|----------|-------|
+| Max width | 896px |
+| Horizontal padding | 60px |
+
+### Card (`CaseStudyPreview`)
 | Property | Value | Token / constant |
 |----------|-------|------------------|
-| Max width | 896px | `max-w-[896px]` |
-| Height (default) | 448px | `h-[448px]` |
-| Corner radius | 2px | card + offset shadow |
-| Hover offset | 8px | `OFFSET_PX` |
-| Hover offset color | `#ffb8c1` | `--ref-pink-90` |
-| Pressed offset color | `#82142c` | `--ref-pink-40` |
-| Placeholder image | `/previews/placeholder.png` | export asset from Figma |
+| Width | 100% of container | |
+| Height | hugs content | |
+| Corner radius | 2px | card + offset |
+| Asset height | 358px fixed | `ASSET_HEIGHT_PX` |
+| Gap asset → copy | 8px | `gap-2` |
+| Copy padding | 24px × 16px | `px-6 py-4` |
+| Title → body gap | 2px | `space-y-0.5` |
+| Body → tags gap | 24px | `mt-6` |
+| Title color | primary-dim | `--sys-primary-dim` |
+| Body color | on-surface-variant | `text-muted-foreground` |
+| Default shadow | elevation 1 drop only | no border |
+| Hover | pink offset + 1px `on-surface-variant` border | |
+| Pressed offset | Pink40 | `--ref-pink-40` |
 
 See [`SPECS-TEMPLATE.md`](../../SPECS-TEMPLATE.md) for how to hand off updates.
 

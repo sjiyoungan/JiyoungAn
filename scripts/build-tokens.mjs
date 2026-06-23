@@ -93,6 +93,7 @@ const lines = [
   cssVar("--sys-primary-container", get("sys.primary.primary-container")),
   cssVar("--sys-on-primary-container", get("sys.primary.on-primary-container")),
   cssVar("--sys-primary-bright", get("sys.primary.primary-bright")),
+  cssVar("--sys-primary-dim", get("sys.primary.primary-dim")),
   cssVar("--sys-primary-surface", get("sys.primary.primary-surface")),
   "",
   "  /* ── Semantic: Accent ── */",

@@ -3,7 +3,7 @@ import { projects } from "@/data/projects"
 
 export function ProjectsPage() {
   return (
-    <div className="px-8 py-12 lg:px-14 lg:py-16">
+    <div className="mx-auto w-full max-w-[896px] px-[60px] py-12 lg:py-16">
       <ul className="flex flex-col gap-12 lg:gap-14">
         {projects.map((project) => (
           <li key={project.slug}>
