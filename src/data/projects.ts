@@ -1,3 +1,7 @@
+import type {
+  CaseStudyPreviewTag,
+  CaseStudyPreviewTheme,
+} from "@/components/CaseStudyPreview"
 import type { CaseStudy, CaseStudySection } from "@/data/case-study"
 
 export type Project = {
@@ -6,6 +10,13 @@ export type Project = {
   subtitle: string
   description: string
   sections: CaseStudySection[]
+  preview: {
+    theme: CaseStudyPreviewTheme
+    imageSrc: string
+    hoverImageSrc?: string
+    imageAlt?: string
+    tags: CaseStudyPreviewTag[]
+  }
 }
 
 const businessCreditReportSections: CaseStudySection[] = [
@@ -108,6 +119,17 @@ export const projects: Project[] = [
     description:
       "Redesigning a lender-focused credit report for business owners — clearer hierarchy, progressive disclosure, and actionable insights.",
     sections: businessCreditReportSections,
+    preview: {
+      theme: "teal",
+      imageSrc: "/previews/improving-business-credit-reports.png",
+      imageAlt: "NAV business credit report dashboard preview",
+      tags: [
+        { label: "UX", show: true },
+        { label: "Fintech", show: true },
+        { label: "Data viz", show: true },
+        { label: "B2B", show: false },
+      ],
+    },
   },
 ]
 

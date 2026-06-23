@@ -1,8 +1,5 @@
-import { ArrowUpRight } from "lucide-react"
-import { Link } from "react-router-dom"
-
 import { SiteContainer } from "@/components/SiteContainer"
-import { Card, CardContent } from "@/components/ui/card"
+import { CaseStudyPreview } from "@/components/CaseStudyPreview"
 import { projects } from "@/data/projects"
 
 export function HomePage() {
@@ -23,33 +20,19 @@ export function HomePage() {
         <h2 className="type-caption1-uppercase mb-6 text-muted-foreground">
           Projects
         </h2>
-        <ul className="flex flex-col gap-3">
+        <ul className="flex flex-col gap-8">
           {projects.map((project) => (
             <li key={project.slug}>
-              <Link
+              <CaseStudyPreview
                 to={`/projects/${project.slug}`}
-                className="group block"
-              >
-                <Card className="pressable-lift">
-                  <CardContent className="flex items-start justify-between gap-4 p-5 sm:p-6">
-                    <div className="min-w-0 space-y-1.5">
-                      <span className="type-title3-em block text-foreground">
-                        {project.title}
-                      </span>
-                      <span className="type-body2 block text-muted-foreground">
-                        {project.subtitle}
-                      </span>
-                      <p className="type-body2 pt-1 text-muted-foreground">
-                        {project.description}
-                      </p>
-                    </div>
-                    <ArrowUpRight
-                      className="mt-1 size-5 shrink-0 text-muted-foreground transition-transform group-hover:-translate-y-0.5 group-hover:translate-x-0.5 group-hover:text-primary"
-                      aria-hidden
-                    />
-                  </CardContent>
-                </Card>
-              </Link>
+                title={project.title}
+                description={project.description}
+                theme={project.preview.theme}
+                imageSrc={project.preview.imageSrc}
+                hoverImageSrc={project.preview.hoverImageSrc}
+                imageAlt={project.preview.imageAlt}
+                tags={project.preview.tags}
+              />
             </li>
           ))}
         </ul>

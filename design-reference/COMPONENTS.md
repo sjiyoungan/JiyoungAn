@@ -86,6 +86,7 @@ These are **layouts** that use `Card`, `Button`, tokens, etc. — not separate d
 | Asset tag pill | `AssetTagBadge` | `src/components/portfolio/AssetTag.tsx` | tokens |
 | Image placeholder | `PlaceholderImage` | `src/components/portfolio/PlaceholderImage.tsx` | tokens |
 | Case study page | `CaseStudyPage` | `src/components/portfolio/CaseStudyPage.tsx` | `SiteContainer`, `CaseStudySection` |
+| Case study preview | `CaseStudyPreview` | `src/components/CaseStudyPreview.tsx` | `Badge`, `Link`, theme surfaces |
 
 ---
 
@@ -93,7 +94,6 @@ These are **layouts** that use `Card`, `Button`, tokens, etc. — not separate d
 
 | Figma name | Code | Status | Reference folder |
 |------------|------|--------|------------------|
-| Case study preview | `CaseStudyPreview` | in progress | `design-reference/components/case-study-preview/` |
 | Project landing | `ProjectLanding` | not built | `design-reference/pages/` |
 
 When built, list which **site-wide primitives** it uses (e.g. `Button`, `Card`, `SiteHeader`).
