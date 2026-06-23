@@ -1,0 +1,39 @@
+---
+description: Auto-commit and push code changes without waiting for the user to ask
+alwaysApply: true
+---
+
+# Git — auto commit & push
+
+**Always** save work to GitHub when you change project files. Do **not** wait for the user to say "push to git" or "commit".
+
+## After making changes
+
+When you finish a task that modified tracked files (code, assets, design-reference, config):
+
+1. `git status` — confirm what changed
+2. `git add` relevant files (never `.env`, secrets, or credentials)
+3. Commit with a **short descriptive message** (what/why, not a file list)
+4. `git push origin main` (or current branch)
+
+Use one-off author identity if git user is unset:
+
+```powershell
+git -c user.name="Jiyoung An" -c user.email="jiyoungan@users.noreply.github.com" commit -m "message"
+```
+
+## When to skip
+
+- Question-only / review-only turns with **no file edits**
+- User explicitly says not to commit yet
+- Commit would be empty
+
+## Backup hook
+
+`.cursor/hooks/auto-push.ps1` also commits and pushes on agent `stop` if anything was missed. Prefer committing **during** the turn with a real message over relying on the generic `Auto-save:` hook.
+
+## Do not
+
+- Force push
+- Amend pushed commits
+- Change git config globally
