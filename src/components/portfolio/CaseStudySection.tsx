@@ -11,7 +11,7 @@ export function CaseStudySection({ section }: CaseStudySectionProps) {
   const placeholderCount = section.placeholderCount ?? 1
 
   return (
-    <article className="rounded-2xl bg-card p-6 shadow-sm ring-1 ring-foreground/5 sm:p-8">
+    <article className="rounded-2xl bg-card p-6 shadow-elevation-1 ring-1 ring-border/60 sm:p-8">
       <div className="flex flex-col gap-6 sm:flex-row sm:gap-8">
         <div
           className="shrink-0 text-5xl font-light tabular-nums text-muted-foreground/50 sm:w-14 sm:text-6xl"
@@ -22,7 +22,7 @@ export function CaseStudySection({ section }: CaseStudySectionProps) {
 
         <div className="flex min-w-0 flex-1 flex-col gap-5">
           <header className="space-y-3">
-            <h2 className="text-xl font-semibold tracking-tight text-foreground sm:text-2xl">
+            <h2 className="type-title2 text-foreground sm:text-2xl">
               {section.title}
             </h2>
             <p className="max-w-prose text-base leading-relaxed text-muted-foreground">

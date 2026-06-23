@@ -36,8 +36,8 @@ export function PasswordGate({ children }: PasswordGateProps) {
   }
 
   return (
-    <div className="flex min-h-svh items-center justify-center bg-neutral-950 px-4">
-      <div className="w-full max-w-sm space-y-6 rounded-2xl bg-card p-8 ring-1 ring-foreground/5">
+    <div className="flex min-h-svh items-center justify-center bg-background px-4">
+      <div className="w-full max-w-sm space-y-6 rounded-2xl bg-card p-8 shadow-elevation-2 ring-1 ring-border">
         <div className="flex flex-col items-center gap-3 text-center">
           <div className="flex size-12 items-center justify-center rounded-xl bg-primary text-primary-foreground">
             <Lock className="size-5" aria-hidden />

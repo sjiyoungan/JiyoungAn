@@ -1,0 +1,98 @@
+/* Auto-generated from Design-tokens/tokens.json — do not edit by hand */
+:root {
+  /* ── Reference: Teal ── */
+  --ref-teal-20: #001728;
+  --ref-teal-30: #003148;
+  --ref-teal-40: #004d6b;
+  --ref-teal-53: #00749b;
+  --ref-teal-50-bright: #0092c3;
+  --ref-teal-80: #91c5df;
+  --ref-teal-90: #bce4f9;
+  --ref-teal-98: #dffeff;
+  --ref-teal-100: #e7ffff;
+
+  /* ── Reference: Neutral ── */
+  --ref-neutral-10: #1b1b1f;
+  --ref-neutral-70: #adabae;
+  --ref-neutral-94: #efefef;
+  --ref-neutral-96: #f5f4f5;
+  --ref-neutral-95: #f2f2f2;
+  --ref-neutral-100: #ffffff;
+
+  /* ── Reference: Neutral variant ── */
+  --ref-neutral-variant-20: #303638;
+  --ref-neutral-variant-40: #5d6567;
+  --ref-neutral-variant-50: #767e80;
+  --ref-neutral-variant-87: #d9e1e4;
+  --ref-neutral-variant-99: #fbfeff;
+
+  /* ── Reference: Pink ── */
+  --ref-pink-40: #82142c;
+  --ref-pink-64: #f23c5f;
+  --ref-pink-90: #ffb8c1;
+  --ref-pink-100: #ffe2e7;
+
+  /* ── Semantic: Primary ── */
+  --sys-primary: #00749b;
+  --sys-on-primary: #e7ffff;
+  --sys-primary-container: #bce4f9;
+  --sys-on-primary-container: #004d6b;
+  --sys-primary-bright: #0092c3;
+  --sys-primary-surface: #dffeff;
+
+  /* ── Semantic: Accent ── */
+  --sys-accent: #f23c5f;
+  --sys-on-accent: #ffe2e7;
+  --sys-accent-container: #ffb8c1;
+  --sys-on-accent-container: #82142c;
+
+  /* ── Semantic: Surface ── */
+  --sys-background: #f7f8fa;
+  --sys-surface: #ffffff;
+  --sys-surface-dim: #efefef;
+  --sys-surface-container-low: #f5f4f5;
+  --sys-surface-container-high: #fbfeff;
+  --sys-on-surface: #1b1b1f;
+  --sys-on-surface-variant: #5d6567;
+  --sys-on-surface-dim: #adabae;
+  --sys-inverse-surface: #303638;
+  --sys-inverse-on-surface: #f2f2f2;
+
+  /* ── Semantic: Outline ── */
+  --sys-outline: #767e80;
+  --sys-outline-variant: #d9e1e4;
+
+  /* ── Elevation ── */
+  --elevation-1: 0px 0px 0px 1px #00172826, 2px 3px 4px 0px #0017281a;
+  --elevation-2: 0px 0px 0px 1px #0017281a, 0px 4px 4px -2px #0017280d, 0px 8px 8px -4px #0017280d, 0px 16px 16px -8px #0017280d;
+  --elevation-3: 0px 0px 0px 1px #0017281a, 0px 8px 8px -4px #0017280d, 0px 16px 16px -8px #0017280d, 0px 32px 32px -16px #0017280d;
+  --elevation-4: 0px 0px 0px 1px #0017281a, 0px 16px 16px -16px #0017280d, 0px 32px 32px -16px #0017280d, 0px 64px 64px -32px #0017280d;
+
+  /* ── Typography families ── */
+  --font-display: "Cormorant Garamond", Georgia, serif;
+  --font-sans: "Geist Sans", system-ui, sans-serif;
+
+  /* ── Type scale (Web) ── */
+  --text-display1-size: 45px;
+  --text-display1-line: 52px;
+  --text-display1-tracking: -0.5px;
+  --text-display2-size: 36px;
+  --text-display2-line: 42px;
+  --text-title1-size: 28px;
+  --text-title1-line: 34px;
+  --text-title1-tracking: -0.25px;
+  --text-title2-size: 22px;
+  --text-title2-line: 28px;
+  --text-title3-size: 20px;
+  --text-title3-line: 28px;
+  --text-body1-size: 16px;
+  --text-body1-line: 22px;
+  --text-body2-size: 14px;
+  --text-body2-line: 20px;
+  --text-caption1-size: 12px;
+  --text-caption1-line: 16px;
+  --text-caption2-size: 11px;
+  --text-caption2-line: 13px;
+
+  --radius: 0.625rem;
+}

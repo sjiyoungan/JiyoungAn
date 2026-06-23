@@ -4,7 +4,7 @@ import { SiteHeader } from "@/components/SiteHeader"
 
 export function SiteLayout() {
   return (
-    <div className="min-h-svh bg-neutral-950 text-foreground">
+    <div className="min-h-svh bg-background text-foreground">
       <SiteHeader />
       <Outlet />
     </div>

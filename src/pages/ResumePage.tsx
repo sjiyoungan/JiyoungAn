@@ -20,20 +20,13 @@ export function ResumePage() {
     <SiteContainer className="py-12 sm:py-16">
       <div className="mb-6 flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
         <header className="space-y-2">
-          <p className="text-sm font-medium tracking-wide text-neutral-400 uppercase">
+          <p className="type-caption1-uppercase text-muted-foreground">
             Resume
           </p>
-          <h1 className="text-2xl font-semibold tracking-tight text-white sm:text-3xl">
-            Jiyoung An
-          </h1>
+          <h1 className="type-title1-em text-foreground">Jiyoung An</h1>
         </header>
 
-        <Button
-          variant="outline"
-          className="shrink-0 border-neutral-700 bg-transparent text-white hover:bg-neutral-800 hover:text-white"
-          disabled={!hasPdf}
-          asChild={hasPdf}
-        >
+        <Button variant="outline" className="shrink-0" disabled={!hasPdf} asChild={hasPdf}>
           {hasPdf ? (
             <a href={RESUME_PATH} download={RESUME_FILENAME}>
               <Download className="size-4" aria-hidden />
@@ -48,20 +41,23 @@ export function ResumePage() {
         </Button>
       </div>
 
-      <div className="overflow-hidden rounded-xl ring-1 ring-foreground/10">
+      <div className="overflow-hidden rounded-xl shadow-elevation-1 ring-1 ring-border">
         {hasPdf ? (
           <iframe
             src={`${RESUME_PATH}#toolbar=0&navpanes=0`}
             title="Jiyoung An resume"
-            className="h-[min(80vh,1100px)] w-full bg-white"
+            className="h-[min(80vh,1100px)] w-full bg-card"
           />
         ) : (
           <div
-            className="flex aspect-[8.5/11] w-full items-center justify-center bg-white sm:min-h-[70vh]"
+            className="flex aspect-[8.5/11] w-full items-center justify-center bg-card sm:min-h-[70vh]"
             aria-label="Resume preview placeholder"
           >
-            <p className="text-sm text-neutral-400">
-              Resume preview — add <code className="font-mono">public/resume.pdf</code>
+            <p className="type-body2 text-muted-foreground">
+              Resume preview — add{" "}
+              <code className="rounded bg-muted px-1.5 py-0.5 font-mono text-xs">
+                public/resume.pdf
+              </code>
             </p>
           </div>
         )}
