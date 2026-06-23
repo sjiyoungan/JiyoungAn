@@ -134,9 +134,9 @@ export function CaseStudyPreview({
           )}
           style={{ transform: bodyTransform }}
         >
-          {/* Preview asset */}
-          <div className="bg-card p-3 pb-0 sm:p-4 sm:pb-0">
-            <div className="overflow-hidden rounded-xl bg-card ring-1 ring-border/40">
+          {/* Preview asset on theme surface */}
+          <div className={cn("px-4 pt-4 sm:px-5 sm:pt-5", styles.surface)}>
+            <div className="overflow-hidden rounded-xl">
               <PreviewAsset
                 imageSrc={imageSrc}
                 hoverImageSrc={hoverImageSrc}
@@ -154,18 +154,12 @@ export function CaseStudyPreview({
             )}
           >
             <div className="space-y-1">
-              <h3 className="type-title3-em text-foreground">{title}</h3>
+              <h3 className="type-title3-em text-primary">{title}</h3>
               <p className="type-body2 text-muted-foreground">{description}</p>
             </div>
 
-            {visibleTags.length > 0 && (
-              <div
-                className={cn(
-                  "flex flex-wrap gap-2 transition-opacity duration-150",
-                  showTags ? "opacity-100" : "opacity-0"
-                )}
-                aria-hidden={!showTags}
-              >
+            {visibleTags.length > 0 && showTags && (
+              <div className="flex flex-wrap gap-2">
                 {visibleTags.map((tag) => (
                   <Badge key={tag.label} variant="outline">
                     {tag.label}
@@ -192,7 +186,7 @@ function PreviewAsset({
   showHover: boolean
 }) {
   return (
-    <div className="relative aspect-[16/10] w-full bg-muted/30">
+    <div className="relative aspect-[16/10] w-full">
       <img
         src={imageSrc}
         alt={imageAlt}

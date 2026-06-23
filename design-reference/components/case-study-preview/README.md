@@ -82,6 +82,8 @@ Project data lives in `src/data/projects.ts` under `preview`.
 
 Place files in `public/previews/` and reference by path in `projects.ts`:
 
-- `imageSrc` — default still (required)
+- `imageSrc` — **preview asset only** (teal surface + dashboard mockup). Export from Figma — do **not** use the component matrix screenshot (`Case-study-preview-screenshot.png`).
 - `hoverImageSrc` — GIF or alternate still on hover (optional)
+
+Reference asset for NAV project: `design-reference/components/case-study-preview/preview-asset-teal.png`
 
