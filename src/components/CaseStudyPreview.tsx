@@ -68,16 +68,13 @@ export function CaseStudyPreview({
   const showHoverImage =
     Boolean(hoverImageSrc) && isHovering && !isPressed && !isActivated
 
-  const isLifted = isHovering && !isPressed
+  const bodyTransform = isPressed
+    ? `translate(${OFFSET_PX}px, ${OFFSET_PX}px)`
+    : "translate(0, 0)"
+
   const styles = themeStyles[theme]
   const assetSrc = imageSrc ?? PLACEHOLDER_SRC
   const isRaised = isHovering || isPressed || isActivated
-
-  const bodyTransform = isPressed
-    ? "translate(0, 0)"
-    : isLifted
-      ? `translate(-${OFFSET_PX}px, -${OFFSET_PX}px)`
-      : "translate(0, 0)"
 
   const cardRadius = `${CARD_RADIUS_PX}px`
 
