@@ -1,0 +1,13 @@
+@layer components {
+  .pressable {
+    @apply transition-[transform,box-shadow] duration-150 ease-out motion-reduce:transition-none;
+  }
+
+  .pressable:active {
+    @apply scale-[0.98] translate-y-px motion-reduce:scale-100 motion-reduce:translate-y-0;
+  }
+
+  .pressable-lift {
+    @apply pressable shadow-elevation-1 hover:shadow-elevation-2;
+  }
+}

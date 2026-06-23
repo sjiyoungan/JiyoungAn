@@ -30,7 +30,7 @@ export function HomePage() {
                 to={`/projects/${project.slug}`}
                 className="group block"
               >
-                <Card className="shadow-elevation-1 transition-shadow hover:shadow-elevation-2">
+                <Card className="pressable-lift">
                   <CardContent className="flex items-start justify-between gap-4 p-5 sm:p-6">
                     <div className="min-w-0 space-y-1.5">
                       <span className="type-title3-em block text-foreground">

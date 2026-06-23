@@ -71,3 +71,7 @@ When the user shares a page or case study frame built from Figma components:
 2. Match **Figma instance names** to `COMPONENTS.md` (Figma `Button` → code `Button`, same variants)
 3. Compose the page from catalog components only — no raw divs that duplicate Button/Card
 4. Unrecognized Figma component → ask before creating anything new
+
+## Motion (not in Figma)
+
+Read `design-reference/ANIMATION.md`. User describes interactions in plain language (e.g. "press in on click"). Implement via `src/styles/interactions.css` site-wide — not one-off per page. Use `.pressable` / `.pressable-lift` on clickable cards; `Button` already has active press.

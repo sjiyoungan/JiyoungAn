@@ -3,6 +3,7 @@
 @import "shadcn/tailwind.css";
 @import "./styles/generated-tokens.css";
 @import "./styles/typography.css";
+@import "./styles/interactions.css";
 
 @custom-variant dark (&:is(.dark *));
 

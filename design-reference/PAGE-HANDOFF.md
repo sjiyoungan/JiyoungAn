@@ -38,4 +38,7 @@ Build [frame name] from design-reference/pages/[file].png.
 Figma link: [url]
 Use only components listed in design-reference/PAGE-HANDOFF.md (or COMPONENTS.md).
 Route: [path]
+Motion: [optional — e.g. preview card presses in on click, sections fade up on load]
 ```
+
+See `design-reference/ANIMATION.md` for motion vocabulary.
