@@ -36,26 +36,31 @@ export function ProjectsPage() {
         )}
       />
 
-      <div className="relative z-0 mx-auto w-full max-w-[896px] px-[60px] py-12 lg:py-16">
+      <div className="mx-auto w-full max-w-[896px] px-[60px] py-12 lg:py-16">
         <ul className="flex flex-col gap-[52px]">
-          {projects.map((project) => (
-            <li
-              key={project.slug}
-              className={cn("relative", hoveredSlug === project.slug && "z-50")}
-            >
-              <CaseStudyPreview
-                to={`/projects/${project.slug}`}
-                title={project.title}
-                description={project.description}
-                theme={project.preview.theme}
-                imageSrc={project.preview.imageSrc}
-                hoverImageSrc={project.preview.hoverImageSrc}
-                imageAlt={project.preview.imageAlt}
-                tags={project.preview.tags}
-                onHoverChange={(hovering) => handleHoverChange(project.slug, hovering)}
-              />
-            </li>
-          ))}
+          {projects.map((project) => {
+            const isHovered = hoveredSlug === project.slug
+
+            return (
+              <li
+                key={project.slug}
+                className={cn("relative", isHovered && "z-[60]")}
+              >
+                <CaseStudyPreview
+                  to={`/projects/${project.slug}`}
+                  title={project.title}
+                  description={project.description}
+                  theme={project.preview.theme}
+                  imageSrc={project.preview.imageSrc}
+                  hoverImageSrc={project.preview.hoverImageSrc}
+                  imageAlt={project.preview.imageAlt}
+                  tags={project.preview.tags}
+                  className={cn(isHovered && "relative z-[60]")}
+                  onHoverChange={(hovering) => handleHoverChange(project.slug, hovering)}
+                />
+              </li>
+            )
+          })}
         </ul>
       </div>
     </>
