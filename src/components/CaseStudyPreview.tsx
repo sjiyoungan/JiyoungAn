@@ -24,7 +24,6 @@ export type CaseStudyPreviewProps = {
   tags?: CaseStudyPreviewTag[]
   to: LinkProps["to"]
   className?: string
-  onHoverChange?: (hovering: boolean) => void
 }
 
 /** Figma specs — design-reference/components/case-study-preview/README.md */
@@ -84,7 +83,6 @@ export function CaseStudyPreview({
   tags = [],
   to,
   className,
-  onHoverChange,
 }: CaseStudyPreviewProps) {
   const [isHovering, setIsHovering] = useState(false)
   const [isPressed, setIsPressed] = useState(false)
@@ -156,14 +154,12 @@ export function CaseStudyPreview({
       onPointerEnter={() => {
         clearExitAnimation()
         setIsHovering(true)
-        onHoverChange?.(true)
       }}
       onPointerLeave={() => {
         if (isHovering || isPressed || isActivated) beginExitAnimation()
         setIsHovering(false)
         setIsPressed(false)
         setIsActivated(false)
-        onHoverChange?.(false)
       }}
       onPointerDown={() => setIsPressed(true)}
       onPointerUp={() => {
