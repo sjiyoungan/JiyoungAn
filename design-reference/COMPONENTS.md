@@ -6,10 +6,36 @@ Update when you add a component in Figma or we implement it in code.
 
 ## How to add from Figma
 
-1. Name the Figma component for the **whole site** (e.g. `Button/Primary`, `Card/Default`) — not per-page names
-2. Screenshot → `design-reference/components/<name>.png`
-3. Add to **Site-wide primitives** below
-4. Say: "Add `Button` to the site library from Figma and use it everywhere"
+Use **one folder per component**:
+
+```
+design-reference/components/
+  case-study-preview/
+    README.md       ← variant table + motion notes (required)
+    matrix.png      ← all variants in one labeled grid (recommended)
+    default.png     ← optional: one file per state
+    hover.png
+    pressed.png
+    motion.gif      ← optional: click/hover recording
+  button/
+    README.md
+    matrix.png
+```
+
+1. Name the Figma component for the **whole site** (e.g. `Case study preview`, `Button`)
+2. Label variants in Figma (frame names or text labels visible in exports)
+3. Fill in `README.md` in that folder — maps filenames → Figma properties
+4. Register in **Site-wide primitives** or **Composed blocks** below
+
+### Screenshot strategy
+
+| Approach | When to use |
+|----------|-------------|
+| **One `matrix.png`** with all variants + visible labels | Most components (like your Button grid) |
+| **Separate PNG per state** | Hover/pressed look very different, or you need large detail |
+| **`motion.gif`** | Press-in, timing, easing — things Figma can't export |
+
+I match variants using **README.md first**, then labels in the screenshot, then your Figma link — in that order.
 
 ---
 
@@ -44,8 +70,9 @@ These are **layouts** that use `Card`, `Button`, tokens, etc. — not separate d
 
 ## To implement (from Figma)
 
-| Figma name | Code | Status | Reference |
-|------------|------|--------|-----------|
-| Project landing | `ProjectLanding` | not built | `design-reference/project-landing.png` |
+| Figma name | Code | Status | Reference folder |
+|------------|------|--------|------------------|
+| Case study preview | `CaseStudyPreview` | in progress | `design-reference/components/case-study-preview/` |
+| Project landing | `ProjectLanding` | not built | `design-reference/pages/` |
 
 When built, list which **site-wide primitives** it uses (e.g. `Button`, `Card`, `SiteHeader`).
