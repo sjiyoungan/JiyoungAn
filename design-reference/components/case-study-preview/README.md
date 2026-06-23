@@ -62,7 +62,7 @@ See [`SPECS-TEMPLATE.md`](../../SPECS-TEMPLATE.md) for how to hand off updates.
 | **Pointer leave**            | Resets to default.                                                                                                                                     |
 
 
-Motion: `150ms` pink/ring fade, then `200ms` `ease-out` collapse. Tags fade in over `100ms` on enter; on exit they stay put and are clipped as the card collapses. Respects `motion-reduce`.
+Motion: collapse starts immediately on leave — `200ms` `ease-in`, tags clipped in place; pink/ring fade in parallel over `150ms`. Tags enter over `100ms` `ease-out`. Respects `motion-reduce`.
 
 ---
 

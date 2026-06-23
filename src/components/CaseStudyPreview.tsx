@@ -45,6 +45,7 @@ const MOTION_MS = 150
 const COLLAPSE_MS = 200
 const TAGS_ENTER_MS = 100
 const EASE_MOTION = "cubic-bezier(0.4, 0, 0.2, 1)"
+const EASE_IN = "ease-in"
 const EASE_OUT = "ease-out"
 const EASE_PRESS = "cubic-bezier(0.25, 0.46, 0.45, 0.94)"
 const motionStyle = (delayMs = 0) => ({
@@ -54,7 +55,7 @@ const motionStyle = (delayMs = 0) => ({
 })
 const collapseStyle = () => ({
   transitionDuration: `${COLLAPSE_MS}ms`,
-  transitionTimingFunction: EASE_OUT,
+  transitionTimingFunction: EASE_IN,
   transitionDelay: "0ms",
 })
 const tagsEnterStyle = () => ({
@@ -88,55 +89,34 @@ export function CaseStudyPreview({
   const [isHovering, setIsHovering] = useState(false)
   const [isPressed, setIsPressed] = useState(false)
   const [isActivated, setIsActivated] = useState(false)
-  const [frozenHeight, setFrozenHeight] = useState<number | null>(null)
-  const [exitPhase, setExitPhase] = useState<"idle" | "fading" | "collapsing">("idle")
+  const [isCollapsing, setIsCollapsing] = useState(false)
 
-  const cardFaceRef = useRef<HTMLDivElement>(null)
-  const fadeTimerRef = useRef<number | null>(null)
   const collapseTimerRef = useRef<number | null>(null)
 
   const clearExitAnimation = () => {
-    if (fadeTimerRef.current !== null) {
-      window.clearTimeout(fadeTimerRef.current)
-      fadeTimerRef.current = null
-    }
     if (collapseTimerRef.current !== null) {
       window.clearTimeout(collapseTimerRef.current)
       collapseTimerRef.current = null
     }
-    setFrozenHeight(null)
-    setExitPhase("idle")
+    setIsCollapsing(false)
   }
 
   const beginExitAnimation = () => {
-    const height = cardFaceRef.current?.offsetHeight
-    if (!height) return
-
     clearExitAnimation()
-    setFrozenHeight(height)
-    setExitPhase("fading")
+    setIsCollapsing(true)
 
-    fadeTimerRef.current = window.setTimeout(() => {
-      fadeTimerRef.current = null
-      setFrozenHeight(null)
-      setExitPhase("collapsing")
-
-      collapseTimerRef.current = window.setTimeout(() => {
-        collapseTimerRef.current = null
-        setExitPhase("idle")
-      }, COLLAPSE_MS)
-    }, MOTION_MS)
+    collapseTimerRef.current = window.setTimeout(() => {
+      collapseTimerRef.current = null
+      setIsCollapsing(false)
+    }, COLLAPSE_MS)
   }
 
   useEffect(() => () => clearExitAnimation(), [])
 
   const visibleTags = tags.filter((tag) => tag.show)
   const showTags = isHovering || isPressed || isActivated
-  const isExiting = exitPhase !== "idle"
-  /** Hold tag row open during pink fade; collapse clips tags at a fixed position */
-  const tagRowOpen = showTags || exitPhase === "fading"
-  const tagsKeepVisible = showTags || isExiting
-  const isCollapsing = exitPhase === "collapsing"
+  const tagRowOpen = showTags
+  const tagsKeepVisible = showTags || isCollapsing
   const showHoverImage =
     Boolean(hoverImageSrc) && isHovering && !isPressed && !isActivated
 
@@ -194,16 +174,14 @@ export function CaseStudyPreview({
     >
       <div className="relative isolate">
         <div
-          ref={cardFaceRef}
           className="relative z-10 motion-reduce:transition-none"
           style={{
             borderRadius: cardRadius,
             transform: bodyTransform,
             boxShadow: cardBoxShadow,
-            minHeight: exitPhase === "fading" && frozenHeight !== null ? frozenHeight : undefined,
-            transitionProperty: "transform, box-shadow, min-height",
-            transitionDuration: `${isCollapsing ? COLLAPSE_MS : MOTION_MS}ms`,
-            transitionTimingFunction: isCollapsing ? EASE_OUT : isPressed ? EASE_PRESS : EASE_MOTION,
+            transitionProperty: "transform, box-shadow",
+            transitionDuration: `${MOTION_MS}ms`,
+            transitionTimingFunction: isPressed ? EASE_PRESS : EASE_MOTION,
           }}
         >
           {/* Accent offset — sized to the card face, fades before collapse */}
