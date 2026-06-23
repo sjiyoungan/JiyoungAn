@@ -14,7 +14,7 @@ export function SiteHeader() {
     <header className="sticky top-0 z-50 border-b border-border bg-background/90 backdrop-blur-sm">
       <SiteContainer className="flex items-center justify-between py-4">
         <Link
-          to="/projects"
+          to="/"
           className="type-body2 font-medium text-foreground transition-colors hover:text-primary"
         >
           Jiyoung An

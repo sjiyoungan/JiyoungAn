@@ -37,7 +37,7 @@ export function ProjectsPage() {
                 className={cn("relative", isHovered && "z-[60]")}
               >
                 <CaseStudyPreview
-                  to={`/projects/${project.slug}`}
+                  to={`/${project.slug}`}
                   title={project.title}
                   description={project.description}
                   theme={project.preview.theme}
