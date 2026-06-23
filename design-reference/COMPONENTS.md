@@ -1,43 +1,51 @@
-# Component catalog
+# Site component catalog
 
-Map Figma components to code. **Update this file** whenever you add a component in Figma or we implement one in code.
+**One library for the whole site.** Landing, case study, about, and resume all use the same components from this list.
 
-The agent must use these components — not recreate them.
+Update when you add a component in Figma or we implement it in code.
 
 ## How to add from Figma
 
-1. In Figma, note the **component name** (e.g. `ProjectCard`, `Button/Primary`)
-2. Export a screenshot → `design-reference/components/<name>.png`
-3. Add a row below with props/variants from Figma
-4. Tell the agent: "Implement `ProjectCard` from `design-reference/components/ProjectCard.png` and add to catalog"
+1. Name the Figma component for the **whole site** (e.g. `Button/Primary`, `Card/Default`) — not per-page names
+2. Screenshot → `design-reference/components/<name>.png`
+3. Add to **Site-wide primitives** below
+4. Say: "Add `Button` to the site library from Figma and use it everywhere"
 
-## Site shell
+---
 
-| Figma name | Code | Path |
-|------------|------|------|
-| Header | `SiteHeader` | `src/components/SiteHeader.tsx` |
-| Page container (796px) | `SiteContainer` | `src/components/SiteContainer.tsx` |
-| Layout wrapper | `SiteLayout` | `src/components/SiteLayout.tsx` |
+## Site-wide primitives
 
-## ShadCN UI
+Shared on every page. **Do not duplicate these per page.**
 
-| Figma name | Code | Path |
-|------------|------|------|
-| Button | `Button` | `src/components/ui/button.tsx` |
-| Card | `Card`, `CardHeader`, `CardTitle`, … | `src/components/ui/card.tsx` |
+| Figma name | Code | Path | Used on |
+|------------|------|------|---------|
+| Button / Primary | `Button` | `src/components/ui/button.tsx` | Home, case study, resume, password gate, … |
+| Button / Outline | `Button variant="outline"` | same | Resume, links, … |
+| Card | `Card`, `CardHeader`, `CardContent`, … | `src/components/ui/card.tsx` | Home project links, case study sections, … |
+| Header | `SiteHeader` | `src/components/SiteHeader.tsx` | All pages |
+| Page width (796px) | `SiteContainer` | `src/components/SiteContainer.tsx` | All pages |
+| Layout | `SiteLayout` | `src/components/SiteLayout.tsx` | All pages |
+| Password gate | `PasswordGate` | `src/components/PasswordGate.tsx` | App wrapper |
 
-## Portfolio
+---
 
-| Figma name | Code | Path |
-|------------|------|------|
-| Case study section | `CaseStudySection` | `src/components/portfolio/CaseStudySection.tsx` |
-| Asset tag pill | `AssetTagBadge` | `src/components/portfolio/AssetTag.tsx` |
-| Image placeholder | `PlaceholderImage` | `src/components/portfolio/PlaceholderImage.tsx` |
+## Composed blocks (built from primitives above)
+
+These are **layouts** that use `Card`, `Button`, tokens, etc. — not separate design systems.
+
+| Figma name | Code | Path | Uses |
+|------------|------|------|------|
+| Case study section | `CaseStudySection` | `src/components/portfolio/CaseStudySection.tsx` | `Card`, `AssetTagBadge`, `PlaceholderImage` |
+| Asset tag pill | `AssetTagBadge` | `src/components/portfolio/AssetTag.tsx` | tokens |
+| Image placeholder | `PlaceholderImage` | `src/components/portfolio/PlaceholderImage.tsx` | tokens |
+| Case study page | `CaseStudyPage` | `src/components/portfolio/CaseStudyPage.tsx` | `SiteContainer`, `CaseStudySection` |
+
+---
 
 ## To implement (from Figma)
-
-_Add rows here as you design. Example:_
 
 | Figma name | Code | Status | Reference |
 |------------|------|--------|-----------|
 | Project landing | `ProjectLanding` | not built | `design-reference/project-landing.png` |
+
+When built, list which **site-wide primitives** it uses (e.g. `Button`, `Card`, `SiteHeader`).

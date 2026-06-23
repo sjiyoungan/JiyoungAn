@@ -1,4 +1,5 @@
 import type { CaseStudySection as Section } from "@/data/case-study"
+import { Card, CardContent, CardFooter } from "@/components/ui/card"
 
 import { AssetTagBadge } from "./AssetTag"
 import { PlaceholderImage } from "./PlaceholderImage"
@@ -11,8 +12,8 @@ export function CaseStudySection({ section }: CaseStudySectionProps) {
   const placeholderCount = section.placeholderCount ?? 1
 
   return (
-    <article className="rounded-2xl bg-card p-6 shadow-elevation-1 ring-1 ring-border/60 sm:p-8">
-      <div className="flex flex-col gap-6 sm:flex-row sm:gap-8">
+    <Card className="gap-0 rounded-2xl p-0 shadow-elevation-1 ring-border/60">
+      <CardContent className="flex flex-col gap-6 p-6 sm:flex-row sm:gap-8 sm:p-8">
         <div
           className="shrink-0 text-5xl font-light tabular-nums text-muted-foreground/50 sm:w-14 sm:text-6xl"
           aria-hidden
@@ -25,7 +26,7 @@ export function CaseStudySection({ section }: CaseStudySectionProps) {
             <h2 className="type-title2 text-foreground sm:text-2xl">
               {section.title}
             </h2>
-            <p className="max-w-prose text-base leading-relaxed text-muted-foreground">
+            <p className="type-body1 max-w-prose text-muted-foreground">
               {section.description}
             </p>
           </header>
@@ -46,7 +47,7 @@ export function CaseStudySection({ section }: CaseStudySectionProps) {
             ))}
           </div>
 
-          <footer className="flex flex-wrap gap-2 pt-1">
+          <CardFooter className="flex flex-wrap gap-2 border-0 bg-transparent p-0">
             {section.tags.map((tag) => (
               <AssetTagBadge
                 key={tag.label}
@@ -54,9 +55,9 @@ export function CaseStudySection({ section }: CaseStudySectionProps) {
                 variant={tag.variant}
               />
             ))}
-          </footer>
+          </CardFooter>
         </div>
-      </div>
-    </article>
+      </CardContent>
+    </Card>
   )
 }

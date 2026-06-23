@@ -1,59 +1,64 @@
 ---
-description: Reuse the project component library; do not invent new UI primitives
+description: Reuse the site-wide component library on every page; do not invent page-specific UI
 alwaysApply: true
 ---
 
-# Component library (required)
+# Site-wide component library (required)
 
-**Always use existing components** from this project. Do not create new UI components, duplicate markup, or inline one-off patterns unless the user explicitly asks for a new component.
+This project has **one component library for the entire site** — landing, case study, about, resume, and password gate all share the same primitives.
+
+**Always use existing components.** Do not create page-specific buttons, cards, or duplicate markup unless the user explicitly asks for a new component.
+
+## Site-wide primitives (use everywhere)
+
+These are defined once in Figma and once in code. **Same `Button` on home, case study, resume, and everywhere else.**
+
+| Component | Import | Used on |
+|-----------|--------|---------|
+| `Button` | `@/components/ui/button` | All pages |
+| `Card` | `@/components/ui/card` | Home project links, case study sections, resume, etc. |
+| `SiteHeader` | `@/components/SiteHeader` | All pages (via `SiteLayout`) |
+| `SiteContainer` | `@/components/SiteContainer` | All pages |
 
 ## Before building any UI
 
-1. Check `design-reference/COMPONENTS.md` — Figma ↔ code mapping
-2. Check `src/components/` and `src/components/ui/` for existing implementations
-3. Compose pages from existing pieces; only add variants via `className` props
+1. Check `design-reference/COMPONENTS.md` — site-wide catalog
+2. Check `src/components/ui/` for primitives
+3. Check `src/components/` for site shell
+4. Compose pages from shared primitives — never fork a "case study button" or "home card"
 
-## Import paths
-
-```tsx
-import { Button } from "@/components/ui/button"
-import { Card, CardHeader, CardTitle, ... } from "@/components/ui/card"
-import { SiteHeader } from "@/components/SiteHeader"
-import { SiteContainer } from "@/components/SiteContainer"
-import { AssetTagBadge } from "@/components/portfolio/AssetTag"
-import { CaseStudySection } from "@/components/portfolio/CaseStudySection"
-```
-
-## Component locations
+## Folder structure
 
 | Folder | Purpose |
 |--------|---------|
-| `src/components/ui/` | ShadCN primitives (Button, Card, …) — add via `npx shadcn add` only when user requests |
-| `src/components/` | Site shell (SiteHeader, SiteContainer, SiteLayout, PasswordGate) |
-| `src/components/portfolio/` | Portfolio-specific (CaseStudySection, AssetTag, PlaceholderImage) |
-| `src/pages/` | Page-level composition only — thin wrappers, no new primitives |
+| `src/components/ui/` | **Site-wide primitives** from Figma (Button, Card, …) |
+| `src/components/` | **Site shell** shared by all pages |
+| `src/components/portfolio/` | **Composed blocks** that *use* `Card`/`Button` — not alternate primitives |
+| `src/pages/` | Thin page wrappers only |
 
-## When the user shares a new Figma component
+## Rules
 
-1. Implement **once** in the correct folder (usually `src/components/` or `ui/`)
-2. Add an entry to `design-reference/COMPONENTS.md` (name, path, props, Figma link)
-3. Use that component everywhere the design appears — never copy-paste the markup
+- Case study sections → `Card` + tokens, not custom `<article>` card markup
+- Project links on home → `Card`, same as elsewhere
+- Need a button anywhere → `Button` from `ui/button`, never `<button className="...">` with one-off styles
+- New Figma component → implement once in `ui/` or `components/`, register in `COMPONENTS.md`, use site-wide
 
 ## Do NOT
 
-- Create `NewButton.tsx` when `Button` exists
-- Duplicate card markup inline when `Card` or a portfolio component fits
+- Create `CaseStudyButton`, `HomeCard`, or page-scoped variants of shared components
+- Put primitives under `portfolio/` — that folder composes primitives, it does not replace them
 - Add ShadCN components without user asking
-- Build parallel one-off versions of the same Figma component
 
 ## Example
 
 ```tsx
-// ❌ BAD — inline duplicate
-<div className="rounded-2xl bg-card p-6 shadow-elevation-1">...</div>
+// ❌ BAD — case study-only card markup
+<article className="rounded-2xl bg-card p-6 shadow-elevation-1">...</article>
 
-// ✅ GOOD — use Card or an existing portfolio component
-<Card className="shadow-elevation-1">...</Card>
+// ❌ BAD — one-off button on one page
+<button className="rounded-lg bg-primary px-4 py-2">Next</button>
+
+// ✅ GOOD — same Card and Button as the rest of the site
+import { Button } from "@/components/ui/button"
+import { Card, CardContent } from "@/components/ui/card"
 ```
-
-If no component exists yet, ask: "Should I add `ProjectHero` to the library from your Figma spec?" — unless the user already said to implement it.
