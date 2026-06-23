@@ -1,7 +1,11 @@
 # Case study preview
 
+Figma file: [Port-design-system](https://www.figma.com/design/BtEpcyFIvLVHXGmN44SpM9/Port-design-system)  
 Figma component set: **Case study preview**  
 Code: `CaseStudyPreview` — `src/components/CaseStudyPreview.tsx`
+
+- **Component link:** (paste `node-id` URL when you select the component in Figma)
+- **Handoff entry:** [node 54295-13154](https://www.figma.com/design/BtEpcyFIvLVHXGmN44SpM9/Port-design-system?node-id=54295-13154)
 
 ---
 

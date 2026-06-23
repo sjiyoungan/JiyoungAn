@@ -2,6 +2,8 @@
 
 **One library for the whole site.** Landing, case study, about, and resume all use the same components from this list.
 
+**Figma file:** [Port-design-system](https://www.figma.com/design/BtEpcyFIvLVHXGmN44SpM9/Port-design-system) — see [`FIGMA.md`](./FIGMA.md) for links and handoff.
+
 Update when you add a component in Figma or we implement it in code.
 
 ## How to add from Figma

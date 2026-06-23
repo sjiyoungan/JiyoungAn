@@ -1,9 +1,13 @@
 # Side navigation
 
+Figma file: [Port-design-system](https://www.figma.com/design/BtEpcyFIvLVHXGmN44SpM9/Port-design-system)  
 Figma component set: **Side navigation**  
 Code: `SideNavigation` — `src/components/SideNavigation.tsx`
 
 Child: **Side navigation menu** → `SideNavigationMenuItem` — `src/components/SideNavigationMenuItem.tsx`
+
+- **Component link:** (paste `node-id` URL when you select the component in Figma)
+- **Handoff entry:** [node 54295-13154](https://www.figma.com/design/BtEpcyFIvLVHXGmN44SpM9/Port-design-system?node-id=54295-13154)
 
 ---
 
@@ -45,7 +49,7 @@ Chevron uses a fixed 20px slot so labels align across states.
 <SideNavigationMenuItem to="/resume">Resume</SideNavigationMenuItem>
 ```
 
-Projects stays **selected** on `/` and `/projects/:slug`.
+Projects stays **selected** on `/projects` and `/projects/:slug`.
 
 ---
 
