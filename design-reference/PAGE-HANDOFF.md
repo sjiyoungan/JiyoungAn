@@ -12,19 +12,21 @@ Fill this in when you share a new Figma screen. If you built the page **only fro
 
 List every **Figma component instance** on the page (names from the layers panel or Dev Mode):
 
-| Figma component | Variant / props in this design | Code to use |
-|-----------------|--------------------------------|-------------|
-| Button | Primary, Fill, Default | `<Button>` |
-| Button | Primary, Outline | `<Button variant="outline">` |
-| Card | Default | `<Card>` |
-| Site header | — | `<SiteHeader>` (already in layout) |
 
-_Add one row per instance type — not every duplicate button._
+| Figma component | Variant / props in this design | Code to use                        |
+| --------------- | ------------------------------ | ---------------------------------- |
+| Button          | Primary, Fill, Default         | `<Button>`                         |
+| Button          | Primary, Outline               | `<Button variant="outline">`       |
+| Card            | Default                        | `<Card>`                           |
+| Site header     | —                              | `<SiteHeader>` (already in layout) |
+
+
+*Add one row per instance type — not every duplicate button.*
 
 ## New components?
 
-- [ ] This page uses **only** components already in `COMPONENTS.md`
-- [ ] New component needed: _____________ (screenshot in `design-reference/components/`)
+- This page uses **only** components already in `COMPONENTS.md`
+- New component needed: _____________ (screenshot in `design-reference/components/`)
 
 ## Page route
 
