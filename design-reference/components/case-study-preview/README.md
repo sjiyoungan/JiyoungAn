@@ -48,14 +48,23 @@ Optional: `motion.gif` — short screen recording
 
 ---
 
-## Maps to site primitives
+## Composition (uses other components)
 
-List which existing components this is built from:
+In Figma, **Case study preview** likely contains instances of Card, Button, text styles, etc.
 
-- [ ] `Card`
-- [ ] `Button`
-- [ ] Typography tokens only
-- [ ] Other: ___
+Document children in this table — I build the parent by **composing** existing site components, not redrawing them.
+
+| Child in Figma | In catalog already? | Code inside parent |
+|----------------|---------------------|-------------------|
+| Card | yes / no | `<Card>` |
+| Button | yes / no | `<Button>` |
+| Text / caption | tokens | `.type-body2`, etc. |
+| Icon | — | lucide or asset file |
+
+**You do not** need separate screenshot folders for children that are already in `COMPONENTS.md`.  
+Screenshot **this parent only** (`matrix.png`) — the whole composed UI per state.
+
+Parent-specific motion (e.g. whole card presses in) goes in **Motion** above, on the parent wrapper.
 
 ---
 

@@ -37,6 +37,27 @@ design-reference/components/
 
 I match variants using **README.md first**, then labels in the screenshot, then your Figma link — in that order.
 
+### Components that use other components (nested)
+
+In Figma, a parent component often contains **instances** of Button, Card, etc.
+
+1. **Implement children first** (or confirm they’re already in `COMPONENTS.md`)
+2. **Parent folder** documents composition in `README.md` — which children it contains
+3. **Screenshot the parent** as a whole (`matrix.png`) — states of the combined UI
+4. **Don’t re-export children** unless the child is new or has a variant used nowhere else
+
+Example — `Case study preview` contains `Card` + text + icon:
+
+```
+design-reference/components/
+  card/                    ← child (site primitive)
+  case-study-preview/      ← parent README lists: uses Card, type tokens
+    README.md              ← composition table
+    matrix.png             ← whole preview in each state
+```
+
+In code: `CaseStudyPreview` imports `Card`, `Button`, etc. — same as Figma nesting.
+
 ---
 
 ## Site-wide primitives
