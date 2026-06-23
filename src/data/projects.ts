@@ -111,25 +111,30 @@ const businessCreditReportSections: CaseStudySection[] = [
   },
 ]
 
-export const projects: Project[] = [
-  {
-    slug: "improving-business-credit-reports",
-    title: "Improving business credit reports",
-    subtitle: "NAV Technologies",
-    description:
-      "Redesigning a lender-focused credit report for business owners — clearer hierarchy, progressive disclosure, and actionable insights.",
-    sections: businessCreditReportSections,
-    preview: {
-      theme: "teal",
-      tags: [
-        { label: "UX", show: true },
-        { label: "Fintech", show: true },
-        { label: "Data viz", show: true },
-        { label: "B2B", show: false },
-      ],
-    },
+const businessCreditReportProject: Omit<Project, "slug"> = {
+  title: "Improving business credit reports",
+  subtitle: "NAV Technologies",
+  description:
+    "Redesigning a lender-focused credit report for business owners — clearer hierarchy, progressive disclosure, and actionable insights.",
+  sections: businessCreditReportSections,
+  preview: {
+    theme: "teal",
+    tags: [
+      { label: "UX", show: true },
+      { label: "Fintech", show: true },
+      { label: "Data viz", show: true },
+      { label: "B2B", show: false },
+    ],
   },
-]
+}
+
+export const projects: Project[] = Array.from({ length: 4 }, (_, index) => ({
+  ...businessCreditReportProject,
+  slug:
+    index === 0
+      ? "improving-business-credit-reports"
+      : `improving-business-credit-reports-${index + 1}`,
+}))
 
 export function getProjectBySlug(slug: string): Project | undefined {
   return projects.find((p) => p.slug === slug)
