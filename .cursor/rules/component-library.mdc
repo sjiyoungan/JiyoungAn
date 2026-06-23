@@ -62,3 +62,12 @@ These are defined once in Figma and once in code. **Same `Button` on home, case 
 import { Button } from "@/components/ui/button"
 import { Card, CardContent } from "@/components/ui/card"
 ```
+
+## Page / case study handoffs
+
+When the user shares a page or case study frame built from Figma components:
+
+1. Read `design-reference/PAGE-HANDOFF.md` if they filled it in
+2. Match **Figma instance names** to `COMPONENTS.md` (Figma `Button` → code `Button`, same variants)
+3. Compose the page from catalog components only — no raw divs that duplicate Button/Card
+4. Unrecognized Figma component → ask before creating anything new
