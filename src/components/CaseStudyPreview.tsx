@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react"
+import { useEffect, useRef, useState } from "react"
 import { Link, type LinkProps } from "react-router-dom"
 
 import { Badge } from "@/components/ui/badge"
@@ -40,23 +40,14 @@ const PRESSED_RING_SHADOW = "0 0 0 1px var(--ref-pink-40)"
 
 const PLACEHOLDER_SRC = "/previews/placeholder.png"
 
-/** Shared motion — Figma spec 150ms with decelerated enter, snappy exit */
+/** Shared motion — one 150ms curve for enter and exit */
 const MOTION_MS = 150
-const TAGS_FADE_MS = 100
-const EASE_ENTER = "cubic-bezier(0.33, 1, 0.68, 1)"
-const EASE_EXIT = "cubic-bezier(0.3, 0, 0.8, 0.15)"
+const EASE_MOTION = "cubic-bezier(0.4, 0, 0.2, 1)"
 const EASE_PRESS = "cubic-bezier(0.25, 0.46, 0.45, 0.94)"
-const motionStyle = (active: boolean, delayMs = 0) => ({
+const motionStyle = (delayMs = 0) => ({
   transitionDuration: `${MOTION_MS}ms`,
-  transitionTimingFunction: active ? EASE_ENTER : EASE_EXIT,
+  transitionTimingFunction: EASE_MOTION,
   transitionDelay: `${delayMs}ms`,
-})
-
-/** Pink + ring snap off on leave; animate in on hover so collapse never clips the offset */
-const hoverLiftMotionStyle = (active: boolean) => ({
-  transitionDuration: active ? `${MOTION_MS}ms` : "0ms",
-  transitionTimingFunction: active ? EASE_ENTER : EASE_EXIT,
-  transitionDelay: "0ms",
 })
 
 const themeStyles: Record<
@@ -84,6 +75,29 @@ export function CaseStudyPreview({
   const [isHovering, setIsHovering] = useState(false)
   const [isPressed, setIsPressed] = useState(false)
   const [isActivated, setIsActivated] = useState(false)
+  const [frozenHeight, setFrozenHeight] = useState<number | null>(null)
+
+  const wrapperRef = useRef<HTMLDivElement>(null)
+  const exitTimerRef = useRef<number | null>(null)
+
+  const clearFrozenHeight = () => {
+    if (exitTimerRef.current !== null) {
+      window.clearTimeout(exitTimerRef.current)
+      exitTimerRef.current = null
+    }
+    setFrozenHeight(null)
+  }
+
+  const freezeHeightForExit = () => {
+    const height = wrapperRef.current?.offsetHeight
+    if (!height) return
+
+    clearFrozenHeight()
+    setFrozenHeight(height)
+    exitTimerRef.current = window.setTimeout(clearFrozenHeight, MOTION_MS)
+  }
+
+  useEffect(() => () => clearFrozenHeight(), [])
 
   const visibleTags = tags.filter((tag) => tag.show)
   const showTags = isHovering || isPressed || isActivated
@@ -124,10 +138,12 @@ export function CaseStudyPreview({
       to={to}
       className={cn("case-study-preview group block w-full select-none", className)}
       onPointerEnter={() => {
+        clearFrozenHeight()
         setIsHovering(true)
         onHoverChange?.(true)
       }}
       onPointerLeave={() => {
+        if (isHovering || isPressed || isActivated) freezeHeightForExit()
         setIsHovering(false)
         setIsPressed(false)
         setIsActivated(false)
@@ -140,7 +156,11 @@ export function CaseStudyPreview({
       }}
       onPointerCancel={() => setIsPressed(false)}
     >
-      <div className="relative isolate">
+      <div
+        ref={wrapperRef}
+        className="relative isolate"
+        style={frozenHeight !== null ? { minHeight: frozenHeight } : undefined}
+      >
         {/* Accent offset sits behind the card — never overlaps the face */}
         <div
           aria-hidden
@@ -151,7 +171,7 @@ export function CaseStudyPreview({
             backgroundColor: offsetColor,
             opacity: isRaised ? 1 : 0,
             transitionProperty: "opacity, transform, background-color",
-            ...hoverLiftMotionStyle(isRaised),
+            ...motionStyle(),
           }}
         />
 
@@ -162,12 +182,8 @@ export function CaseStudyPreview({
             transform: bodyTransform,
             boxShadow: cardBoxShadow,
             transitionProperty: "transform, box-shadow",
-            ...(isPressed
-              ? {
-                  transitionDuration: `${MOTION_MS}ms`,
-                  transitionTimingFunction: EASE_PRESS,
-                }
-              : hoverLiftMotionStyle(isRaised)),
+            transitionDuration: `${MOTION_MS}ms`,
+            transitionTimingFunction: isPressed ? EASE_PRESS : EASE_MOTION,
           }}
         >
           <div
@@ -190,7 +206,7 @@ export function CaseStudyPreview({
               )}
               style={{
                 transitionProperty: "background-color",
-                ...motionStyle(isRaised),
+                ...motionStyle(),
               }}
             >
               <div className="space-y-0.5">
@@ -210,8 +226,8 @@ export function CaseStudyPreview({
                     showTags ? "grid-rows-[1fr]" : "grid-rows-[0fr]"
                   )}
                   style={{
-                    transitionDuration: `${TAGS_FADE_MS}ms`,
-                    transitionTimingFunction: showTags ? EASE_ENTER : EASE_EXIT,
+                    transitionProperty: "grid-template-rows",
+                    ...motionStyle(),
                   }}
                   aria-hidden={!showTags}
                 >
@@ -221,8 +237,7 @@ export function CaseStudyPreview({
                       style={{
                         opacity: showTags ? 1 : 0,
                         transitionProperty: "opacity",
-                        transitionDuration: `${TAGS_FADE_MS}ms`,
-                        transitionTimingFunction: showTags ? EASE_ENTER : EASE_EXIT,
+                        ...motionStyle(),
                       }}
                     >
                       {visibleTags.map((tag) => (
@@ -274,7 +289,7 @@ function PreviewAsset({
         style={{
           transitionProperty: "opacity",
           transitionDuration: `${MOTION_MS}ms`,
-          transitionTimingFunction: showHover ? EASE_ENTER : EASE_EXIT,
+          transitionTimingFunction: EASE_MOTION,
         }}
         onError={() => {
           if (activeSrc !== PLACEHOLDER_SRC) setActiveSrc(PLACEHOLDER_SRC)
@@ -292,7 +307,7 @@ function PreviewAsset({
           style={{
             transitionProperty: "opacity",
             transitionDuration: `${MOTION_MS}ms`,
-            transitionTimingFunction: showHover ? EASE_ENTER : EASE_EXIT,
+            transitionTimingFunction: EASE_MOTION,
             transitionDelay: showHover ? "40ms" : "0ms",
           }}
         />

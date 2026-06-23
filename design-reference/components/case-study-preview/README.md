@@ -62,7 +62,7 @@ See [`SPECS-TEMPLATE.md`](../../SPECS-TEMPLATE.md) for how to hand off updates.
 | **Pointer leave**            | Resets to default.                                                                                                                                     |
 
 
-Motion: `150ms` enter on pink offset and ring; **instant** exit on mouse leave so the offset is not clipped as tags collapse. Tags sit at a fixed `mt-6` offset; the row expands/clips via CSS grid, then fades in together over `100ms`. Respects `motion-reduce`.
+Motion: unified `150ms` `cubic-bezier(0.4, 0, 0.2, 1)` on enter and exit. On leave, card height is frozen so pink offset, ring, tags, and scrim all settle together. Respects `motion-reduce`.
 
 ---
 

@@ -1,29 +1,19 @@
-import { useRef, useState } from "react"
+import { useState } from "react"
 
 import { CaseStudyPreview } from "@/components/CaseStudyPreview"
 import { projects } from "@/data/projects"
 import { cn } from "@/lib/utils"
 
-const SCRIM_CLEAR_MS = 50
-
 export function ProjectsPage() {
   const [hoveredSlug, setHoveredSlug] = useState<string | null>(null)
-  const clearTimerRef = useRef<number | null>(null)
 
   const handleHoverChange = (slug: string, hovering: boolean) => {
     if (hovering) {
-      if (clearTimerRef.current !== null) {
-        window.clearTimeout(clearTimerRef.current)
-        clearTimerRef.current = null
-      }
       setHoveredSlug(slug)
       return
     }
 
-    clearTimerRef.current = window.setTimeout(() => {
-      setHoveredSlug((current) => (current === slug ? null : current))
-      clearTimerRef.current = null
-    }, SCRIM_CLEAR_MS)
+    setHoveredSlug((current) => (current === slug ? null : current))
   }
 
   return (
@@ -31,7 +21,7 @@ export function ProjectsPage() {
       <div
         aria-hidden
         className={cn(
-          "pointer-events-none fixed inset-0 z-40 bg-[#000000]/30 transition-opacity duration-150 motion-reduce:transition-none",
+          "pointer-events-none fixed inset-0 z-40 bg-[#000000]/30 transition-opacity duration-150 ease-[cubic-bezier(0.4,0,0.2,1)] motion-reduce:transition-none",
           hoveredSlug ? "opacity-100" : "opacity-0"
         )}
       />
