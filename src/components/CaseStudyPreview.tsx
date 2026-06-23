@@ -195,22 +195,32 @@ export function CaseStudyPreview({
               {visibleTags.length > 0 && (
                 <div
                   className={cn(
-                    "flex flex-wrap gap-2 motion-reduce:transition-none",
-                    showTags ? "mt-6" : "mt-0 overflow-hidden"
+                    "grid transition-[grid-template-rows] motion-reduce:transition-none",
+                    showTags ? "grid-rows-[1fr]" : "grid-rows-[0fr]"
                   )}
                   style={{
-                    opacity: showTags ? 1 : 0,
-                    transitionProperty: "opacity",
                     transitionDuration: `${TAGS_FADE_MS}ms`,
                     transitionTimingFunction: showTags ? EASE_ENTER : EASE_EXIT,
                   }}
                   aria-hidden={!showTags}
                 >
-                  {visibleTags.map((tag) => (
-                    <Badge key={tag.label} variant="outline">
-                      {tag.label}
-                    </Badge>
-                  ))}
+                  <div className="min-h-0 overflow-hidden">
+                    <div
+                      className="mt-6 flex flex-wrap gap-2 motion-reduce:transition-none"
+                      style={{
+                        opacity: showTags ? 1 : 0,
+                        transitionProperty: "opacity",
+                        transitionDuration: `${TAGS_FADE_MS}ms`,
+                        transitionTimingFunction: showTags ? EASE_ENTER : EASE_EXIT,
+                      }}
+                    >
+                      {visibleTags.map((tag) => (
+                        <Badge key={tag.label} variant="outline">
+                          {tag.label}
+                        </Badge>
+                      ))}
+                    </div>
+                  </div>
                 </div>
               )}
             </div>
