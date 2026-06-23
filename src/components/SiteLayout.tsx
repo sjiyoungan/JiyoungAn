@@ -1,12 +1,14 @@
 import { Outlet } from "react-router-dom"
 
-import { SiteHeader } from "@/components/SiteHeader"
+import { SideNavigation } from "@/components/SideNavigation"
 
 export function SiteLayout() {
   return (
-    <div className="min-h-svh bg-background text-foreground">
-      <SiteHeader />
-      <Outlet />
+    <div className="flex min-h-svh bg-background text-foreground">
+      <SideNavigation />
+      <main className="min-w-0 flex-1">
+        <Outlet />
+      </main>
     </div>
   )
 }

@@ -72,6 +72,8 @@ Shared on every page. **Do not duplicate these per page.**
 | Header | `SiteHeader` | `src/components/SiteHeader.tsx` | All pages |
 | Page width (796px) | `SiteContainer` | `src/components/SiteContainer.tsx` | All pages |
 | Layout | `SiteLayout` | `src/components/SiteLayout.tsx` | All pages |
+| Side navigation | `SideNavigation` | `src/components/SideNavigation.tsx` | All pages |
+| Side navigation menu | `SideNavigationMenuItem` | `src/components/SideNavigationMenuItem.tsx` | `SideNavigation` |
 | Password gate | `PasswordGate` | `src/components/PasswordGate.tsx` | App wrapper |
 
 ---
