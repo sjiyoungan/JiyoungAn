@@ -39,6 +39,17 @@ const PRESSED_RING_SHADOW = "0 0 0 1px var(--ref-pink-40)"
 
 const PLACEHOLDER_SRC = "/previews/placeholder.png"
 
+/** Shared motion — Figma spec 150ms with decelerated enter, snappy exit */
+const MOTION_MS = 150
+const EASE_ENTER = "cubic-bezier(0.33, 1, 0.68, 1)"
+const EASE_EXIT = "cubic-bezier(0.3, 0, 0.8, 0.15)"
+const EASE_PRESS = "cubic-bezier(0.25, 0.46, 0.45, 0.94)"
+const motionStyle = (active: boolean, delayMs = 0) => ({
+  transitionDuration: `${MOTION_MS}ms`,
+  transitionTimingFunction: active ? EASE_ENTER : EASE_EXIT,
+  transitionDelay: `${delayMs}ms`,
+})
+
 const themeStyles: Record<
   CaseStudyPreviewTheme,
   { surface: string; contentBg: string; contentBgPressed: string }
@@ -94,6 +105,10 @@ export function CaseStudyPreview({
       ? "var(--sys-on-accent-container)"
       : "var(--sys-accent)"
 
+  const offsetTransform = isRaised
+    ? `translate(${OFFSET_PX}px, ${OFFSET_PX}px) scale(1)`
+    : `translate(${OFFSET_PX / 2}px, ${OFFSET_PX / 2}px) scale(0.985)`
+
   return (
     <Link
       to={to}
@@ -115,21 +130,26 @@ export function CaseStudyPreview({
         {/* Accent offset sits behind the card — never overlaps the face */}
         <div
           aria-hidden
-          className="pointer-events-none absolute inset-0 z-0 transition-opacity duration-150 ease-out motion-reduce:transition-none"
+          className="pointer-events-none absolute inset-0 z-0 motion-reduce:transition-none"
           style={{
             borderRadius: cardRadius,
-            transform: `translate(${OFFSET_PX}px, ${OFFSET_PX}px)`,
+            transform: offsetTransform,
             backgroundColor: offsetColor,
             opacity: isRaised ? 1 : 0,
+            transitionProperty: "opacity, transform, background-color",
+            ...motionStyle(isRaised),
           }}
         />
 
         <div
-          className="relative z-10 transition-[transform,box-shadow] duration-150 ease-out motion-reduce:transition-none"
+          className="relative z-10 motion-reduce:transition-none"
           style={{
             borderRadius: cardRadius,
             transform: bodyTransform,
             boxShadow: cardBoxShadow,
+            transitionProperty: "transform, box-shadow",
+            transitionDuration: `${MOTION_MS}ms`,
+            transitionTimingFunction: isPressed ? EASE_PRESS : isRaised ? EASE_ENTER : EASE_EXIT,
           }}
         >
           <div
@@ -147,9 +167,13 @@ export function CaseStudyPreview({
 
             <div
               className={cn(
-                "shrink-0 px-6 py-4 transition-colors duration-150",
+                "shrink-0 px-6 py-4 motion-reduce:transition-none",
                 isPressed || isActivated ? styles.contentBgPressed : styles.contentBg
               )}
+              style={{
+                transitionProperty: "background-color",
+                ...motionStyle(isRaised),
+              }}
             >
               <div className="space-y-0.5">
                 <h3
@@ -161,10 +185,30 @@ export function CaseStudyPreview({
                 <p className="type-body2 text-muted-foreground">{description}</p>
               </div>
 
-              {visibleTags.length > 0 && showTags && (
-                <div className="mt-6 flex flex-wrap gap-2">
-                  {visibleTags.map((tag) => (
-                    <Badge key={tag.label} variant="outline">
+              {visibleTags.length > 0 && (
+                <div
+                  className={cn(
+                    "flex flex-wrap gap-2 overflow-hidden motion-reduce:transition-none",
+                    showTags ? "mt-6 max-h-24 opacity-100" : "mt-0 max-h-0 opacity-0"
+                  )}
+                  style={{
+                    transitionProperty: "opacity, margin, max-height",
+                    ...motionStyle(showTags, showTags ? 50 : 0),
+                  }}
+                  aria-hidden={!showTags}
+                >
+                  {visibleTags.map((tag, index) => (
+                    <Badge
+                      key={tag.label}
+                      variant="outline"
+                      className="motion-reduce:transition-none"
+                      style={{
+                        opacity: showTags ? 1 : 0,
+                        transform: showTags ? "translateY(0)" : "translateY(4px)",
+                        transitionProperty: "opacity, transform",
+                        ...motionStyle(showTags, showTags ? 70 + index * 35 : 0),
+                      }}
+                    >
                       {tag.label}
                     </Badge>
                   ))}
@@ -204,9 +248,14 @@ function PreviewAsset({
         src={activeSrc}
         alt={imageAlt}
         className={cn(
-          "absolute inset-0 size-full object-cover object-top transition-opacity duration-200",
+          "absolute inset-0 size-full object-cover object-top motion-reduce:transition-none",
           showHover && hoverImageSrc ? "opacity-0" : "opacity-100"
         )}
+        style={{
+          transitionProperty: "opacity",
+          transitionDuration: `${MOTION_MS}ms`,
+          transitionTimingFunction: showHover ? EASE_ENTER : EASE_EXIT,
+        }}
         onError={() => {
           if (activeSrc !== PLACEHOLDER_SRC) setActiveSrc(PLACEHOLDER_SRC)
         }}
@@ -217,9 +266,15 @@ function PreviewAsset({
           alt=""
           aria-hidden
           className={cn(
-            "absolute inset-0 size-full object-cover object-top transition-opacity duration-200",
+            "absolute inset-0 size-full object-cover object-top motion-reduce:transition-none",
             showHover ? "opacity-100" : "opacity-0"
           )}
+          style={{
+            transitionProperty: "opacity",
+            transitionDuration: `${MOTION_MS}ms`,
+            transitionTimingFunction: showHover ? EASE_ENTER : EASE_EXIT,
+            transitionDelay: showHover ? "40ms" : "0ms",
+          }}
         />
       )}
     </div>

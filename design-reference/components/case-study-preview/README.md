@@ -62,7 +62,7 @@ See [`SPECS-TEMPLATE.md`](../../SPECS-TEMPLATE.md) for how to hand off updates.
 | **Pointer leave**            | Resets to default.                                                                                                                                     |
 
 
-Motion: `150ms ease-out` on transform and box-shadow. Respects `motion-reduce`.
+Motion: `150ms` — pink offset slides/fades in first, ring follows, tags stagger ~35ms apart. Enter uses decelerated ease; exit is snappier. Press uses a tighter ease. Respects `motion-reduce`.
 
 ---
 
