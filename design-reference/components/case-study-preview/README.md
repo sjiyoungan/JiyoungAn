@@ -29,7 +29,7 @@ Code: `CaseStudyPreview` — `src/components/CaseStudyPreview.tsx`
 | Body → tags gap | 24px | `mt-6` |
 | Title color | primary-dim | `--sys-primary-dim` |
 | Body color | on-surface-variant | `text-muted-foreground` |
-| Default shadow | elevation 1 drop only | card + asset |
+| Default shadow | elevation 1 | `var(--elevation-1)` — 0/0/0/1px `#001728` @15% + 2/3/4 drop |
 | Hover offset | `#f23c5f` | `--sys-accent` (`ref/Pink/Pink64`) |
 | Hover | accent offset + 1px `on-surface-variant` border | |
 | Pressed offset | `#82142c` | `--sys-on-accent-container` |

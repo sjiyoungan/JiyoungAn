@@ -1,4 +1,4 @@
-import { useEffect, useState, type CSSProperties } from "react"
+import { useEffect, useState } from "react"
 import { Link, type LinkProps } from "react-router-dom"
 
 import { Badge } from "@/components/ui/badge"
@@ -30,8 +30,11 @@ export type CaseStudyPreviewProps = {
 const CARD_RADIUS_PX = 2
 const ASSET_HEIGHT_PX = 358
 const OFFSET_PX = 8
-/** Elevation 1 drop shadow only (no 1px spread ring) */
-const ELEVATION_1_DROP = "2px 3px 4px 0px #0017281a"
+/** Figma Elevation 1: 0/0/0/1 #001728 @15% + 2/3/4/0 drop */
+const ELEVATION_1 = "var(--elevation-1)"
+/** Hard offset shadow: 8px × 8px, 0 blur, 0 spread */
+const ACCENT_OFFSET_SHADOW = "8px 8px 0 0 var(--sys-accent)"
+const PRESSED_OFFSET_SHADOW = "8px 8px 0 0 var(--sys-on-accent-container)"
 
 const PLACEHOLDER_SRC = "/previews/placeholder.png"
 
@@ -78,16 +81,16 @@ export function CaseStudyPreview({
 
   const cardRadius = `${CARD_RADIUS_PX}px`
 
+  const cardBoxShadow = !isRaised
+    ? ELEVATION_1
+    : isPressed || isActivated
+      ? PRESSED_OFFSET_SHADOW
+      : ACCENT_OFFSET_SHADOW
+
   return (
     <Link
       to={to}
       className={cn("case-study-preview group block w-full select-none", className)}
-      style={
-        {
-          "--preview-border-hover": "var(--sys-accent)",
-          "--preview-border-pressed": "var(--sys-on-accent-container)",
-        } as CSSProperties
-      }
       onPointerEnter={() => setIsHovering(true)}
       onPointerLeave={() => {
         setIsHovering(false)
@@ -101,70 +104,55 @@ export function CaseStudyPreview({
       }}
       onPointerCancel={() => setIsPressed(false)}
     >
-      <div className="relative">
-        {/* Attached drop shadow (pink → dark red) */}
-        <div
-          aria-hidden
-          className="absolute inset-0 transition-opacity duration-150 ease-out"
-          style={{
-            borderRadius: cardRadius,
-            transform: `translate(${OFFSET_PX}px, ${OFFSET_PX}px)`,
-            backgroundColor:
-              isPressed || isActivated
-                ? "var(--preview-border-pressed)"
-                : "var(--preview-border-hover)",
-            opacity: isRaised ? 1 : 0,
-          }}
-        />
+      <div
+        className={cn(
+          "relative transition-[transform,box-shadow,border-color] duration-150 ease-out motion-reduce:transition-none",
+          isRaised
+            ? "border border-[var(--sys-on-surface-variant)]"
+            : "border border-transparent"
+        )}
+        style={{
+          borderRadius: cardRadius,
+          transform: bodyTransform,
+          boxShadow: cardBoxShadow,
+        }}
+      >
+        <div className="flex w-full flex-col gap-2 overflow-hidden bg-card" style={{ borderRadius: cardRadius }}>
+        <div className={cn("w-full shrink-0", styles.surface)}>
+          <PreviewAsset
+            imageSrc={assetSrc}
+            hoverImageSrc={hoverImageSrc}
+            imageAlt={imageAlt}
+            showHover={showHoverImage}
+          />
+        </div>
 
         <div
           className={cn(
-            "relative flex w-full flex-col gap-2 overflow-hidden bg-card transition-[transform,box-shadow,border-color] duration-150 ease-out motion-reduce:transition-none",
-            isRaised
-              ? "border border-[var(--sys-on-surface-variant)]"
-              : "border border-transparent"
+            "shrink-0 px-6 py-4 transition-colors duration-150",
+            isPressed || isActivated ? styles.contentBgPressed : styles.contentBg
           )}
-          style={{
-            borderRadius: cardRadius,
-            transform: bodyTransform,
-            boxShadow: isRaised ? undefined : ELEVATION_1_DROP,
-          }}
         >
-          <div className={cn("w-full shrink-0", styles.surface)}>
-            <PreviewAsset
-              imageSrc={assetSrc}
-              hoverImageSrc={hoverImageSrc}
-              imageAlt={imageAlt}
-              showHover={showHoverImage}
-            />
+          <div className="space-y-0.5">
+            <h3
+              className="type-title3-em"
+              style={{ color: "var(--sys-primary-dim)" }}
+            >
+              {title}
+            </h3>
+            <p className="type-body2 text-muted-foreground">{description}</p>
           </div>
 
-          <div
-            className={cn(
-              "shrink-0 px-6 py-4 transition-colors duration-150",
-              isPressed || isActivated ? styles.contentBgPressed : styles.contentBg
-            )}
-          >
-            <div className="space-y-0.5">
-              <h3
-                className="type-title3-em"
-                style={{ color: "var(--sys-primary-dim)" }}
-              >
-                {title}
-              </h3>
-              <p className="type-body2 text-muted-foreground">{description}</p>
+          {visibleTags.length > 0 && showTags && (
+            <div className="mt-6 flex flex-wrap gap-2">
+              {visibleTags.map((tag) => (
+                <Badge key={tag.label} variant="outline">
+                  {tag.label}
+                </Badge>
+              ))}
             </div>
-
-            {visibleTags.length > 0 && showTags && (
-              <div className="mt-6 flex flex-wrap gap-2">
-                {visibleTags.map((tag) => (
-                  <Badge key={tag.label} variant="outline">
-                    {tag.label}
-                  </Badge>
-                ))}
-              </div>
-            )}
-          </div>
+          )}
+        </div>
         </div>
       </div>
     </Link>
@@ -191,7 +179,7 @@ function PreviewAsset({
   return (
     <div
       className="relative w-full overflow-hidden"
-      style={{ height: ASSET_HEIGHT_PX, boxShadow: ELEVATION_1_DROP }}
+      style={{ height: ASSET_HEIGHT_PX, boxShadow: ELEVATION_1 }}
     >
       <img
         src={activeSrc}
