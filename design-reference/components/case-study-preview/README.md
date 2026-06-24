@@ -30,7 +30,7 @@ Code: `CaseStudyPreview` — `src/components/CaseStudyPreview.tsx`
 | Title color | primary-dim | `--sys-primary-dim` |
 | Body color | on-surface-variant | `text-muted-foreground` |
 | Default shadow | elevation 1 | `var(--elevation-1)` — 0/0/0/1px `#001728` @15% + 2/3/4 drop |
-| Hover offset | `#f23c5f` | `--sys-accent` — separate layer behind card (`z-0`), offset 8px down-right |
+| Hover offset | `#d83a65` | `--sys-accent` / `--ref-pink-60` — separate layer behind card (`z-0`), offset 8px down-right |
 | Hover | outer 1px `on-surface-variant` ring (`box-shadow`) + constant elevation drop | |
 | Pressed offset | `#82142c` | `--sys-on-accent-container` |
 | Placeholder | `preview-asset.png` → `/previews/placeholder.png` | |
@@ -56,7 +56,7 @@ See [`SPECS-TEMPLATE.md`](../../SPECS-TEMPLATE.md) for how to hand off updates.
 | State                        | Visual                                                                                                                                                 |
 | ---------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------ |
 | **Default**                  | Flat card on theme surface. Default preview image. Tags hidden. No pink offset.                                                                        |
-| **Hover**                    | Card stays in place. Accent offset shadow (`--sys-accent` / `#f23c5f`). **2px** corner radius. Tags fade in. |
+| **Hover**                    | Card stays in place. Accent offset shadow (`--sys-accent` / `#d83a65`). **2px** corner radius. Tags fade in. |
 | **Pressed**                  | Card presses down onto offset. Border → `--ref-pink-40` (`#7f1535`). Content area grey (`#e8ecef`). |
 | **Release** (still hovering) | Card returns to hover position. Border stays dark red. Image returns to default. Tags remain visible. |
 | **Pointer leave**            | Resets to default.                                                                                                                                     |

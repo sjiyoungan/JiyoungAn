@@ -87,7 +87,6 @@ const lines = [
   cssVar("--ref-pink-40", get("ref.Pink.Pink40")),
   cssVar("--ref-pink-50", get("ref.Pink.Pink50")),
   cssVar("--ref-pink-60", get("ref.Pink.Pink60")),
-  cssVar("--ref-pink-64", get("ref.Pink.Pink64")),
   cssVar("--ref-pink-70", get("ref.Pink.Pink70")),
   cssVar("--ref-pink-80", get("ref.Pink.Pink80")),
   cssVar("--ref-pink-90", get("ref.Pink.Pink90")),
