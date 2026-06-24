@@ -29,9 +29,11 @@ Code: `CaseStudyPreview` — `src/components/CaseStudyPreview.tsx`
 | Body → tags gap | 24px | `mt-6` |
 | Title color | primary-dim | `--sys-primary-dim` |
 | Body color | on-surface-variant | `text-muted-foreground` |
-| Default shadow | elevation 1 | `var(--elevation-1)` — 0/0/0/1px `#001728` @15% + 2/3/4 drop |
+| Default shadow | elevation 1 on asset | `var(--elevation-1)` |
+| Hover asset shadow | elevation 3 | `var(--elevation-3)` |
+| Card ring (default) | elevation 1 ring | `0 0 0 1px #00172826` |
 | Hover offset | `#d83a65` | `--sys-accent` / `--ref-pink-60` — separate layer behind card (`z-0`), offset 8px down-right |
-| Hover | outer 1px `on-surface-variant` ring (`box-shadow`) + constant elevation drop | |
+| Hover | outer 1px `on-surface-variant` ring on card face | |
 | Pressed offset | `#82142c` | `--sys-on-accent-container` |
 | Placeholder | `preview-asset.png` → `/previews/placeholder.png` | |
 

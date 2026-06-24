@@ -30,9 +30,10 @@ export type CaseStudyPreviewProps = {
 const CARD_RADIUS_PX = 2
 const ASSET_HEIGHT_PX = 358
 const OFFSET_PX = 8
-/** Figma Elevation 1 decomposed — ring + drop kept separate so ring can change without shifting */
+/** Figma Elevation 1 decomposed — ring only on card face; asset uses full elevation tokens */
+const ELEVATION_1 = "var(--elevation-1)"
+const ELEVATION_3 = "var(--elevation-3)"
 const ELEVATION_RING = "0 0 0 1px #00172826"
-const ELEVATION_DROP = "2px 3px 4px 0px #0017281a"
 /** Outer 1px stroke — same geometry in every state to avoid subpixel shift */
 const HOVER_RING_SHADOW = "0 0 0 1px var(--sys-on-surface-variant)"
 const PRESSED_RING_SHADOW = "0 0 0 1px var(--ref-pink-40)"
@@ -135,8 +136,8 @@ export function CaseStudyPreview({
         ? HOVER_RING_SHADOW
         : ELEVATION_RING
 
-  /** Keep drop shadow constant so the card never jumps when the ring color changes */
-  const cardBoxShadow = `${ringShadow}, ${ELEVATION_DROP}`
+  /** Card face uses outer ring only; asset carries elevation 1 → 3 */
+  const cardBoxShadow = ringShadow
 
   const offsetColor =
     isPressed || isActivated
@@ -169,6 +170,20 @@ export function CaseStudyPreview({
       onPointerCancel={() => setIsPressed(false)}
     >
       <div className="relative isolate">
+        {/* Accent offset — sibling behind the card face, never on top */}
+        <div
+          aria-hidden
+          className="pointer-events-none absolute inset-0 z-0 motion-reduce:transition-none"
+          style={{
+            borderRadius: cardRadius,
+            transform: offsetTransform,
+            backgroundColor: offsetColor,
+            opacity: isRaised ? 1 : 0,
+            transitionProperty: "opacity, transform, background-color",
+            ...motionStyle(),
+          }}
+        />
+
         <div
           className="relative z-10 motion-reduce:transition-none"
           style={{
@@ -180,30 +195,17 @@ export function CaseStudyPreview({
             transitionTimingFunction: isPressed ? EASE_PRESS : EASE_MOTION,
           }}
         >
-          {/* Accent offset — sized to the card face, fades before collapse */}
           <div
-            aria-hidden
-            className="pointer-events-none absolute inset-0 z-0 motion-reduce:transition-none"
-            style={{
-              borderRadius: cardRadius,
-              transform: offsetTransform,
-              backgroundColor: offsetColor,
-              opacity: isRaised ? 1 : 0,
-              transitionProperty: "opacity, transform, background-color",
-              ...motionStyle(),
-            }}
-          />
-
-          <div
-            className="relative z-10 flex w-full flex-col gap-2 overflow-hidden bg-card"
+            className="relative flex w-full flex-col gap-2 overflow-hidden bg-card"
             style={{ borderRadius: cardRadius }}
           >
-            <div className={cn("w-full shrink-0", styles.surface)}>
+            <div className={cn("relative z-10 w-full shrink-0", styles.surface)}>
               <PreviewAsset
                 imageSrc={assetSrc}
                 hoverImageSrc={hoverImageSrc}
                 imageAlt={imageAlt}
                 showHover={showHoverImage}
+                isRaised={isRaised}
               />
             </div>
 
@@ -270,11 +272,13 @@ function PreviewAsset({
   hoverImageSrc,
   imageAlt,
   showHover,
+  isRaised,
 }: {
   imageSrc: string
   hoverImageSrc?: string
   imageAlt: string
   showHover: boolean
+  isRaised: boolean
 }) {
   const [activeSrc, setActiveSrc] = useState(imageSrc)
 
@@ -284,8 +288,13 @@ function PreviewAsset({
 
   return (
     <div
-      className="relative w-full overflow-hidden"
-      style={{ height: ASSET_HEIGHT_PX }}
+      className="relative z-10 w-full overflow-hidden motion-reduce:transition-none"
+      style={{
+        height: ASSET_HEIGHT_PX,
+        boxShadow: isRaised ? ELEVATION_3 : ELEVATION_1,
+        transitionProperty: "box-shadow",
+        ...motionStyle(),
+      }}
     >
       <img
         src={activeSrc}
