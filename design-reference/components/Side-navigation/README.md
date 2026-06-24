@@ -16,6 +16,12 @@ Child: **Side navigation menu** → `SideNavigationMenuItem` — `src/components
 |------|-------|
 | `Side-navigation-screenshot.png` | Parent — name, bio, dashed border, menu list |
 
+### Layout
+
+| Property | Value |
+|----------|-------|
+| Width | 229px fixed |
+
 ### Right border stroke
 
 | Property | Value |

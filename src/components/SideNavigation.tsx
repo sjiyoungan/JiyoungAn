@@ -16,7 +16,7 @@ export function SideNavigation({ className }: SideNavigationProps) {
   return (
     <aside
       className={cn(
-        "relative flex w-[280px] shrink-0 flex-col px-8 py-12 lg:py-16",
+        "relative flex w-[229px] shrink-0 flex-col px-8 py-12 lg:py-16",
         className
       )}
       aria-label="Site"
