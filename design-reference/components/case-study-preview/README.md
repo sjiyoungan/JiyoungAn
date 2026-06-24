@@ -57,7 +57,7 @@ See [`SPECS-TEMPLATE.md`](../../SPECS-TEMPLATE.md) for how to hand off updates.
 | ---------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------ |
 | **Default**                  | Flat card on theme surface. Default preview image. Tags hidden. No pink offset.                                                                        |
 | **Hover**                    | Card stays in place. Accent offset shadow (`--sys-accent` / `#f23c5f`). **2px** corner radius. Tags fade in. |
-| **Pressed**                  | Card presses down onto offset. Border → `--ref-pink-40` (`#82142c`). Content area grey (`#e8ecef`). |
+| **Pressed**                  | Card presses down onto offset. Border → `--ref-pink-40` (`#7f1535`). Content area grey (`#e8ecef`). |
 | **Release** (still hovering) | Card returns to hover position. Border stays dark red. Image returns to default. Tags remain visible. |
 | **Pointer leave**            | Resets to default.                                                                                                                                     |
 

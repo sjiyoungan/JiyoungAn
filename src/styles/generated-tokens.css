@@ -27,10 +27,16 @@
   --ref-neutral-variant-99: #fbfeff;
 
   /* ── Reference: Pink ── */
-  --ref-pink-40: #82142c;
-  --ref-pink-64: #f23c5f;
-  --ref-pink-90: #ffb8c1;
-  --ref-pink-100: #ffe2e7;
+  --ref-pink-20: #30000b;
+  --ref-pink-30: #56031f;
+  --ref-pink-40: #7f1535;
+  --ref-pink-50: #aa274c;
+  --ref-pink-60: #d83a65;
+  --ref-pink-64: #d83a65;
+  --ref-pink-70: #f16a86;
+  --ref-pink-80: #ff95a9;
+  --ref-pink-90: #ffbecd;
+  --ref-pink-100: #ffe8f2;
 
   /* ── Semantic: Primary ── */
   --sys-primary: #00749b;
@@ -42,10 +48,10 @@
   --sys-primary-surface: #dffeff;
 
   /* ── Semantic: Accent ── */
-  --sys-accent: #f23c5f;
-  --sys-on-accent: #ffe2e7;
-  --sys-accent-container: #ffb8c1;
-  --sys-on-accent-container: #82142c;
+  --sys-accent: #d83a65;
+  --sys-on-accent: #ffe8f2;
+  --sys-accent-container: #ffbecd;
+  --sys-on-accent-container: #7f1535;
 
   /* ── Semantic: Surface ── */
   --sys-background: #f7f8fa;
