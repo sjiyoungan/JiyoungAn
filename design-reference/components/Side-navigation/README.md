@@ -16,6 +16,17 @@ Child: **Side navigation menu** → `SideNavigationMenuItem` — `src/components
 |------|-------|
 | `Side-navigation-screenshot.png` | Parent — name, bio, dashed border, menu list |
 
+### Right border stroke
+
+| Property | Value |
+|----------|-------|
+| Color | `--sys-on-surface-dim` |
+| Style | dashed |
+| Dash | 2px |
+| Gap | 4px |
+| Cap | butt (no dash cap) |
+| Miter angle | 28.96° (Figma; N/A on straight vertical rail) |
+
 Child states (from Figma matrix):
 
 | State | Text color | Chevron |
